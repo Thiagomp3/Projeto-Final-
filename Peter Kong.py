@@ -58,6 +58,7 @@ class Player(pygame.sprite.Sprite):
     
 
 
+
 mapa= [[0,1,2],
        [0]*10,
        [0]*10,
@@ -85,6 +86,4 @@ for e in mapa:
        
     
 
-        
-        
-        
+   
