@@ -5,5 +5,24 @@ Created on Thu May  9 16:08:22 2019
 @author: lucca
 """
 
-print("comecou essa porra")
-print("oi")
+mapa = [
+[1]*40,
+[0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0]
+
+
+
+
+
+
+]
+
+
+
+
+
+
+
+
+
+
+print(len(mapa[1]))
