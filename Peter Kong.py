@@ -1,9 +1,28 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May  9 16:08:22 2019
+# Importando as bibliotecas necessárias.
+import pygame
+import random
+import time
+from os import path
 
-@author: lucca
-"""
+
+# Estabelece a pasta que contem as figuras e sons.
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
+
+
+# Dados gerais do jogo.
+WIDTH = 480 # Largura da tela
+HEIGHT = 600 # Altura da tela
+FPS = 60 # Frames por segundo
+
+# Define algumas variáveis com as cores básicas
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+
 
 <<<<<<< HEAD
 mapa = [
