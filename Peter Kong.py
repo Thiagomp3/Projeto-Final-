@@ -49,21 +49,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 0
         self.rect.y = 0
         
-        # Velocidade da nave
-        self.speedx = 0
         
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 25
-        
-         # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.x += self.speedx
-        
-        # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
             
             
 class Mob(pygame.sprite.Sprite):
@@ -176,6 +162,19 @@ clock = pygame.time.Clock()
 background= assets["background"]
 background_rect = background.get_rect()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Carrega os sons do jogo
 '''
 pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
@@ -213,7 +212,24 @@ try:
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-        
+
+        tile_rects = []
+        for layer in game_map:
+        	x = 0
+        	for tile in layer:
+        		if tile == '0':
+        			display.blit(tiles["New Piskel.png"], (x*32, y*32))
+
+        		x += 1	
+        	y += 1	
+
+
+
+
+
+
+
+
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
             
@@ -310,8 +326,9 @@ mapa= [
 
 ]
 
-print(mapa)
+#print(mapa)
 
+'''
 linha=0
 for e in mapa:
     for i in mapa[linha]:
@@ -322,7 +339,7 @@ for e in mapa:
         elif i == 2:
             print("escada")
     linha+=1
-    
+'''    
 
        
     
