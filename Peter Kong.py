@@ -27,17 +27,17 @@ YELLOW = (255, 255, 0)
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, player_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "New Piskel.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (32, 32))
+        self.image = pygame.transform.scale(player_img, (50, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -46,16 +46,16 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
-        self.rect.x = 0
-        self.rect.y = 0
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
         
         # Velocidade da nave
         self.speedx = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
-        
-         # Metodo que atualiza a posição da navinha
+    
+    # Metodo que atualiza a posição da navinha
     def update(self):
         self.rect.x += self.speedx
         
@@ -148,7 +148,7 @@ def load_assets(img_dir):#, snd_dir):
     assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
     assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-    assets["background"]= pygame.image.load(path.join(img_dir, "starfield.png")).convert()
+    assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
     '''
     assets["boom_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -328,7 +328,7 @@ for e in mapa:
     
 # Inicialização do Pygame.
 pygame.init()
-pygame.mixer.init()
+#pygame.mixer.init()
 
 # Tamanho da tela.
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
