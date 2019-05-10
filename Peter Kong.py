@@ -23,6 +23,40 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+# Classe Jogador que representa a nave
+class Player(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, player_img):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        player_img = pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
+        self.image = player_img
+        
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Centraliza embaixo da tela.
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
+        
+        # Velocidade da nave
+        self.speedx = 0
+        
+        # Melhora a colisão estabelecendo um raio de um circulo
+        self.radius = 25
+        
+    
+
 
 
 mapa= [[0,1,2],
