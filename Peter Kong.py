@@ -23,6 +23,61 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+
+
+# Mapa do jogo
+game_map = [
+[0]*32,
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,3,1],
+[0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,3,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,4,0],
+[0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+]
+
+#Legenda:
+#
+#
+
+
+
+
+# Carrega os assets do jogo
+def load_assets(img_dir):#, snd_dir):
+    assets= {}
+    assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
+    assets["platform"] = pygame.image.load(path.join(img_dir, "platform.png")).convert()
+    '''
+    assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
+    assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
+    assets["boom_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
+    assets["destroy_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
+    assets["pew_sound"]= pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
+    '''
+    return assets
+
+
+'''
 # Classe Jogador que representa a nave
 class Player(pygame.sprite.Sprite):
     
@@ -33,7 +88,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
@@ -48,11 +103,12 @@ class Player(pygame.sprite.Sprite):
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
-        
+
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
     
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do avatar
+    
     def update(self):
         self.rect.x += self.speedx
         
@@ -62,7 +118,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-'''
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -72,7 +127,7 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "")).convert()
         
         self.image = mob_img
         
@@ -140,20 +195,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
 '''           
-def load_assets(img_dir):#, snd_dir):
-    assets= {}
-    assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
-    '''
-    assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
-    assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-    '''
-    assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
-    '''
-    assets["boom_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
-    assets["destroy_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
-    assets["pew_sound"]= pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    '''
-    return assets
+
         
 # Inicialização do Pygame.
 pygame.init()
@@ -175,12 +217,17 @@ clock = pygame.time.Clock()
 background= assets["background"]
 background_rect = background.get_rect()
 
+#carrega a plataforma
+platform = assets["platform"]
 
 
 
+display = pygame.Surface((300,200))
 
-# Carrega os sons do jogo
+
+
 '''
+# Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
 pygame.mixer.music.set_volume(0.4)
 boom_sound = assets["boom_sound"]
@@ -188,11 +235,11 @@ destroy_sound = assets["destroy_sound"]
 pew_sound = assets["pew_sound"]
 '''
 # Cria uma nave. O construtor será chamado automaticamente.
-player = Player(assets["player_img"])
+#player = Player(assets["player_img"])
 
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
+#all_sprites.add(player)
 '''
 # Cria um grupo só dos meteoros
 mobs = pygame.sprite.Group()
@@ -218,24 +265,7 @@ try:
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-
-        tile_rects = []
-        for layer in game_map:
-        	x = 0
-        	for tile in layer:
-        		if tile == '0':
-        			display.blit(tiles["New Piskel.png"], (x*32, y*32))
-
-        		x += 1	
-        	y += 1	
-
-
-
-
-
-
-
-
+        
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
             
@@ -293,7 +323,23 @@ try:
         '''
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        #screen.blit(background, background_rect)
+        tile_rects = []
+        y = 0
+        for layer in game_map:
+        	x = 0
+        	for tile in layer:
+        		if tile == 1:
+        			screen.blit(platform, (x*32, y*32))
+                if tile == 2:
+                    display.blit(grass_img,(x*32,y*32))
+                if tile != 0:
+                    tile_rects.append(pygame.Rect(x*32,y*32,32,32))
+            x += 1
+        y += 1
+
+        		x += 1	
+        	y += 1	
         all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
@@ -303,53 +349,6 @@ finally:
     
     pygame.quit()
 
-
-
-
-mapa= [
-
-[0]*32,
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-
-]
-
-#print(mapa)
-
-'''
-linha=0
-for e in mapa:
-    for i in mapa[linha]:
-        if i == 0:
-            print("espaco vazio feature")
-        elif i == 1:
-            print("chao")
-        elif i == 2:
-            print("escada")
-    linha+=1
-'''    
 
 
    
