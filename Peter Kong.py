@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-            
+'''
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -77,7 +77,7 @@ class Mob(pygame.sprite.Sprite):
         self.image = mob_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (50, 38))
+        self.image = pygame.transform.scale(mob_img, (100, 76))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -139,12 +139,14 @@ class Bullet(pygame.sprite.Sprite):
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-            
+'''           
 def load_assets(img_dir):#, snd_dir):
     assets= {}
     assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
-    assets["mob_img"]= pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
+    '''
+    assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
     assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
+    '''
     assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
     '''
     assets["boom_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
@@ -191,18 +193,20 @@ player = Player(assets["player_img"])
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
-
+'''
 # Cria um grupo só dos meteoros
 mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
-
+'''
 # Cria 8 meteoros e adiciona no grupo meteoros
+'''
 for i in range(8):
     m = Mob(assets["mob_img"])
     all_sprites.add(m)
     mobs.add(m)
+'''
 
 # Comando para evitar travamentos.
 try:
@@ -247,12 +251,13 @@ try:
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 8
                 # Se for um espaço atira!
+                '''
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet(player.rect.centerx, player.rect.top,assets["bullet_img"])
                     all_sprites.add(bullet)
                     bullets.add(bullet)
                     #pew_sound.play()
-                    
+                '''    
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
                 # Dependendo da tecla, altera a velocidade.
@@ -266,15 +271,18 @@ try:
         all_sprites.update()
         
         # Verifica se houve colisão entre tiro e meteoro
+        '''
         hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+        
         for hit in hits: # Pode haver mais de um
             # O meteoro e destruido e precisa ser recriado
             #destroy_sound.play()
             m = Mob("mob_img") 
             all_sprites.add(m)
             mobs.add(m)
-        
+        '''
         # Verifica se houve colisão entre nave e meteoro
+        '''
         hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
         if hits:
             # Toca o som da colisão
@@ -282,7 +290,7 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
             
             running = False
-    
+        '''
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
@@ -343,7 +351,5 @@ for e in mapa:
     linha+=1
 '''    
 
-       
-    
 
    
