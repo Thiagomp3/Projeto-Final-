@@ -27,17 +27,17 @@ YELLOW = (255, 255, 0)
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, player_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "New Piskel.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (32, 32))
+        self.image = pygame.transform.scale(player_img, (50, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -46,11 +46,22 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
-        self.rect.x = 0
-        self.rect.y = 0
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
         
+        # Melhora a colisão estabelecendo um raio de um circulo
+        self.radius = 25
+    
+    # Metodo que atualiza a posição da navinha
+    def update(self):
+        self.rect.x += self.speedx
         
-            
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
             
 class Mob(pygame.sprite.Sprite):
     
@@ -61,7 +72,7 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
         
         self.image = mob_img
         
@@ -132,9 +143,9 @@ class Bullet(pygame.sprite.Sprite):
 def load_assets(img_dir):#, snd_dir):
     assets= {}
     assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
-    assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
+    assets["mob_img"]= pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
     assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-    assets["background"]= pygame.image.load(path.join(img_dir, "starfield.png")).convert()
+    assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
     '''
     assets["boom_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"]= pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -144,9 +155,9 @@ def load_assets(img_dir):#, snd_dir):
         
 # Inicialização do Pygame.
 pygame.init()
-'''
-pygame.mixer.init()
-'''
+
+#pygame.mixer.init()
+
 # Tamanho da tela.
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -161,15 +172,6 @@ clock = pygame.time.Clock()
 # Carrega o fundo do jogo
 background= assets["background"]
 background_rect = background.get_rect()
-
-
-
-
-
-
-
-
-
 
 
 
@@ -341,60 +343,6 @@ for e in mapa:
     linha+=1
 '''    
 
-       
-    
-# Inicialização do Pygame.
-pygame.init()
-pygame.mixer.init()
-
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Nome do jogo
-pygame.display.set_caption("Peter Kong")
-
-# Variável para o ajuste de velocidade
-clock = pygame.time.Clock()
-
-# Carrega o fundo do jogo
-
-
-# Cria uma nave. O construtor será chamado automaticamente.
-player = Player()
-
-# Cria um grupo de sprites e adiciona a nave.
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-
-# Comando para evitar travamentos.
-try:
-    
-    # Loop principal.
-    running = True
-    while running:
-        
-        # Ajusta a velocidade do jogo.
-        clock.tick(FPS)
-        
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            
-            # Verifica se foi fechado
-            if event.type == pygame.QUIT:
-                running = False
-    
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        all_sprites.draw(screen)
-        
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-        
-finally:
-    pygame.quit()
-
-       
-       
        
     
 
