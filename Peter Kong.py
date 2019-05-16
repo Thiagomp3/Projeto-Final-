@@ -66,8 +66,8 @@ def load_assets(img_dir):#, snd_dir):
     assets= {}
     assets["background"]= pygame.image.load(path.join(img_dir, "BuracoNegro.jpg")).convert()
     assets["platform"] = pygame.image.load(path.join(img_dir, "platform.png")).convert()
-    #assets["escada"] = pygame.image.load(path.join(img_dir, ""))
-    #assets["esteira"] = pygame.image.load(path.join(img_dir, ""))
+    assets["escada"] = pygame.image.load(path.join(img_dir, "escada.png"))
+    assets["esteira"] = pygame.image.load(path.join(img_dir, "Esteira.png"))
     '''
     assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
@@ -223,10 +223,10 @@ background_rect = background.get_rect()
 platform = assets["platform"]
 
 # Carrega a escada
-#escada = assets["escada"]
+escada = assets["escada"]
 
 # Carrega a esteira
-#esteira = assets["esteira"]
+esteira = assets["esteira"]
 
 
 
@@ -341,16 +341,14 @@ try:
             for tile in layer:
                 if tile == 1:
                     screen.blit(platform, (x*32, y*32))
-                #if tile == 2:
-                 #   display.blit(escada,(x*32,y*32))
-                #if tile == 3:
-                   # display.blit(esteira,(x*32,y*32))
+                if tile == 2:
+                    screen.blit(escada,(x*32,y*32))
+                if tile == 3:
+                    screen.blit(esteira,(x*32,y*32))
                 if tile != 0:
                     tile_rects.append(pygame.Rect(x*32,y*32,32,32))
                 x += 1
             y += 1
-#                x += 1
- #           y += 1
         all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
