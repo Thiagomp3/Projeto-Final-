@@ -98,7 +98,24 @@ def load_assets(img_dir):#, snd_dir):
     return assets
 
 
+class Tile(pygame.sprite.Sprite):
 
+    # Construtor da classe.
+    def __init__(self, tile_img, row, column):
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+
+        # Aumenta o tamanho do tile.
+        tile_img = pygame.transform.scale(tile_img, (TILE_SIZE, TILE_SIZE))
+
+        # Define a imagem do tile.
+        self.image = tile_img
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+
+        # Posiciona o tile
+        self.rect.x = TILE_SIZE * column
+        self.rect.y = TILE_SIZE * row
 
 # Classe Jogador que representa o herói
 class Player(pygame.sprite.Sprite):
@@ -221,6 +238,88 @@ class Player(pygame.sprite.Sprite):
         if self.state == STILL:
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
+
+def game_screen(screen):
+    # Variável para o ajuste de velocidade
+    clock = pygame.time.Clock()
+
+    # Carrega assets
+    assets = load_assets(img_dir)
+
+    # Cria um grupo de todos os sprites.
+    all_sprites = pygame.sprite.Group()
+    # Cria um grupo somente com os sprites de plataforma.
+    # Sprites de plataforma são aqueles que permitem que o jogador passe quando
+    # estiver pulando, mas pare quando estiver caindo.
+    platforms = pygame.sprite.Group()
+    # Cria um grupo somente com os sprites de bloco.
+    # Sprites de block são aqueles que impedem o movimento do jogador, independente
+    # de onde ele está vindo
+    blocks = pygame.sprite.Group()
+
+    # Cria Sprite do jogador
+    player = pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
+    # Cria tiles de acordo com o mapa
+    for row in range(len(game_map)):
+        for column in range(len(game_map[row])):
+            tile_type = game_map[row][column]
+            if tile_type != 0:
+                tile = Tile(assets[tile_type])#, row, column)
+                all_sprites.add(tile)
+                if tile_type == 1:
+                    blocks.add(tile)
+                elif tile_type == 2:
+                    platforms.add(tile)
+
+    # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
+    all_sprites.add(player)
+
+    PLAYING = 0
+    DONE = 1
+
+    state = PLAYING
+    while state != DONE:
+
+        # Ajusta a velocidade do jogo.
+        clock.tick(FPS)
+
+        # Processa os eventos (mouse, teclado, botão, etc).
+        for event in pygame.event.get():
+
+            # Verifica se foi fechado.
+            if event.type == pygame.QUIT:
+                state = DONE
+
+            # Verifica se apertou alguma tecla.
+            if event.type == pygame.KEYDOWN:
+                # Dependendo da tecla, altera o estado do jogador.
+                if event.key == pygame.K_LEFT:
+                    player.speedx -= SPEED_X
+                elif event.key == pygame.K_RIGHT:
+                    player.speedx += SPEED_X
+                elif event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                    player.jump()
+
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera o estado do jogador.
+                if event.key == pygame.K_LEFT:
+                    player.speedx += SPEED_X
+                elif event.key == pygame.K_RIGHT:
+                    player.speedx -= SPEED_X
+                    
+        # Depois de processar os eventos.
+        # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
+        all_sprites.update()
+
+        # A cada loop, redesenha o fundo e os sprites
+        screen.fill(BLACK)
+        all_sprites.draw(screen)
+
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+                    
+        
 
 '''
 # Classe Jogador que representa a nave
@@ -411,101 +510,7 @@ for i in range(8):
 
 # Comando para evitar travamentos.
 try:
-
-    # Loop principal.
-    #pygame.mixer.music.play(loops=-1)
-    running = True
-    while running:
-
-        # Ajusta a velocidade do jogo.
-        clock.tick(FPS)
-
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                running = False
-
-            # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = -8
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 8
-                    
-                if event.key == pygame.K_UP:
-                    player.speedy = -8
-                if event.key == pygame.K_DOWN:
-                    player.speedx = 8
-                # Se for um espaço atira!
-                '''
-                if event.key == pygame.K_SPACE:
-                    bullet = Bullet(player.rect.centerx, player.rect.top,assets["bullet_img"])
-                    all_sprites.add(bullet)
-                    bullets.add(bullet)
-                    #pew_sound.play()
-                '''
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = 0
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 0
-
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
-        all_sprites.update()
-
-        # Verifica se houve colisão entre tiro e meteoro
-        '''
-        hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-
-        for hit in hits: # Pode haver mais de um
-            # O meteoro e destruido e precisa ser recriado
-            #destroy_sound.play()
-            m = Mob("mob_img")
-            all_sprites.add(m)
-            mobs.add(m)
-        '''
-        # Verifica se houve colisão entre nave e meteoro
-        '''
-        hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
-        if hits:
-            # Toca o som da colisão
-            #boom_sound.play()
-            time.sleep(1) # Precisa esperar senão fecha
-
-            running = False
-        '''
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        #screen.blit(background, background_rect)
-
-        tile_rects = []
-        y = 0
-        for layer in game_map:
-            x = 0
-            for tile in layer:
-                if tile == 1:
-                    screen.blit(platform, (x*32, y*32))
-                if tile == 2:
-                    screen.blit(escada,(x*32,y*32))
-                if tile == 3:
-                    screen.blit(esteira,(x*32,y*32))
-                if tile != 0:
-                    tile_rects.append(pygame.Rect(x*32,y*32,32,32))
-
-                x += 1
-            y += 1
-
-        all_sprites.draw(screen)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-
+    game_screen(screen)
 finally:
 
     pygame.quit()
