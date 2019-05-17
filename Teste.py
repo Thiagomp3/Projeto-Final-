@@ -363,7 +363,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 '''
-'''
+
 class Mob(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -373,12 +373,12 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Thanos.png")).convert()
 
         self.image = mob_img
 
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (100, 76))
+        self.image = pygame.transform.scale(mob_img, (250, 152))
 
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -389,27 +389,27 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x
         self.rect.x = random.randrange(WIDTH - self.rect.width)
         # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
+        self.rect.y = -50
         # Sorteia uma velocidade inicial
-        self.speedx = random.randrange(-3, 3)
-        self.speedy = random.randrange(2, 9)
+        self.speedx = 2
+        self.speedy = 5
 
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
 
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do Thanos
     def update(self):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-
+'''
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
             self.rect.x = random.randrange(WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(2, 9)
-
-
+'''
+'''
 class Bullet(pygame.sprite.Sprite):
 
     # Construtor da classe.

@@ -186,6 +186,47 @@ class Player(pygame.sprite.Sprite):
             self.state = JUMPING
 
 
+#classe do Thanos
+class Mob(pygame.sprite.Sprite):
+
+    # Construtor da classe.
+    def __init__(self, mob_img):
+
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+
+        # Carregando a imagem de fundo.
+        mob_img = pygame.image.load(path.join(img_dir, "Thanos.png")).convert()
+
+        self.image = mob_img
+
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(mob_img, (250, 152))
+
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+
+        # Sorteia um lugar inicial em x
+        self.rect.x = random.randrange(WIDTH - self.rect.width)
+        # Sorteia um lugar inicial em y
+        self.rect.y = -50
+        # Sorteia uma velocidade inicial
+        self.speedx = 2
+        self.speedy = 5
+
+        # Melhora a colisão estabelecendo um raio de um circulo
+        self.radius = int(self.rect.width * .85 / 2)
+
+    # Metodo que atualiza a posição do Thanos
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        
+        
+        
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
     assets = {}
