@@ -14,7 +14,7 @@ WIDTH = 1024 # Largura da tela
 HEIGHT = 800 # Altura da tela
 TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado)
 PLAYER_WIDTH = TILE_SIZE
-PLAYER_HEIGHT = int(TILE_SIZE * 1.5)
+PLAYER_HEIGHT = TILE_SIZE
 FPS = 60 # Frames por segundo
 
 # Imagens
@@ -190,42 +190,81 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
 
     # Construtor da classe.
-    def __init__(self, mob_img):
+    def __init__(self, mob_img, row, column, blocks):
 
-        # Construtor da classe pai (Sprite).
+
+# Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
-        # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "Thanos.png")).convert()
+        # Ajusta o tamanho da imagem
+        player_img = pygame.transform.scale(mob_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
+        # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = mob_img
-
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (250, 152))
-
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
-        # Sorteia um lugar inicial em x
-        self.rect.x = random.randrange(WIDTH - self.rect.width)
-        # Sorteia um lugar inicial em y
-        self.rect.y = -50
-        # Sorteia uma velocidade inicial
-        self.speedx = 2
-        self.speedy = 5
+        # Guarda o grupo de blocos para tratar as colisões
+        self.blocks = blocks
 
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * .85 / 2)
+        # Posiciona o personagem
+        # row é o índice da linha embaixo do personagem
+        self.rect.x = column * TILE_SIZE
+        self.rect.bottom = row * TILE_SIZE
 
-    # Metodo que atualiza a posição do Thanos
+        self.speedx = 0
+        self.speedy = 0
+
+    # Metodo que atualiza a posição do personagem
     def update(self):
-        self.rect.x += self.speedx
+        # Vamos tratar os movimentos de maneira independente.
+        # Primeiro tentamos andar no eixo y e depois no x.
+
+        # Tenta andar em y
+        # Atualiza a velocidade aplicando a aceleração da gravidade
+        self.speedy += GRAVITY
+        # Atualiza o estado para caindo
+        if self.speedy > 0:
+            self.state = FALLING
+        # Atualiza a posição y
         self.rect.y += self.speedy
-        
-        
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+            # Estava indo para baixo
+            if self.speedy > 0:
+                self.rect.bottom = collision.rect.top
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+            # Estava indo para cima
+            elif self.speedy < 0:
+                self.rect.top = collision.rect.bottom
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+
+        # Tenta andar em x
+        self.rect.x += self.speedx
+        # Corrige a posição caso tenha passado do tamanho da janela
+        if self.rect.left < 0:
+            self.rect.left = 0
+        elif self.rect.right >= WIDTH:
+            self.rect.right = WIDTH - 1
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+            # Estava indo para a direita
+            if self.speedx > 0:
+                self.rect.right = collision.rect.left
+            # Estava indo para a esquerda
+            elif self.speedx < 0:
+                self.rect.left = collision.rect.right
+
         
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
@@ -234,6 +273,7 @@ def load_assets(img_dir):
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
+    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     return assets
 
 
@@ -256,6 +296,8 @@ def game_screen(screen):
     # Cria Sprite do jogador
     player = Player(assets["PLAYER_IMG"], 26, 26, blocks)
 
+    thanos = Mob(assets["THANOS_IMG"], 26, 26, blocks)
+
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
         for column in range(len(MAP[row])):
@@ -277,6 +319,7 @@ def game_screen(screen):
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por
     # cima dos blocos
     all_sprites.add(player)
+    all_sprites.add(thanos)
 
     PLAYING = 0
     DONE = 1
