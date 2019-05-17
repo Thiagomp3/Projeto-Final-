@@ -263,13 +263,14 @@ def game_screen(screen):
     for row in range(len(game_map)):
         for column in range(len(game_map[row])):
             tile_type = game_map[row][column]
-            if tile_type != 0:
-                tile = Tile(assets[tile_type])#, row, column)
+            if tile_type == 1:
+                tile = Tile(assets["platform"], row, column)
                 all_sprites.add(tile)
-                if tile_type == 1:
-                    blocks.add(tile)
-                elif tile_type == 2:
-                    platforms.add(tile)
+                blocks.add(tile)
+            elif tile_type == 2:
+                tile = Tile(assets["escada"], row, column)
+                all_sprites.add(tile)
+                platforms.add(tile)
 
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
     all_sprites.add(player)
