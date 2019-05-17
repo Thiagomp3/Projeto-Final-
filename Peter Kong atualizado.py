@@ -192,6 +192,7 @@ def load_assets(img_dir):
     assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'AvatarPeterQuill.png')).convert_alpha()
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
+    assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     return assets
 
 
@@ -212,7 +213,7 @@ def game_screen(screen):
     
 
     # Cria Sprite do jogador
-    player = Player(assets["PLAYER_IMG"], 24, 24, blocks)
+    player = Player(assets["PLAYER_IMG"], 26, 26, blocks)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -226,6 +227,11 @@ def game_screen(screen):
                 tile = Tile(assets["ESCADA"], row, column)
                 all_sprites.add(tile)
                 blocks.add(tile)
+            if tile_type == 3:
+                tile = Tile(assets["BLOCK2"], row, column)
+                all_sprites.add(tile)
+                blocks.add(tile)
+
 
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por
     # cima dos blocos
