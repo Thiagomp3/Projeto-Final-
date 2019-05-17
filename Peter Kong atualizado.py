@@ -17,9 +17,6 @@ PLAYER_WIDTH = TILE_SIZE
 PLAYER_HEIGHT = TILE_SIZE
 FPS = 60 # Frames por segundo
 
-# Imagens
-PLAYER_IMG = 'player_img'
-
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -35,10 +32,6 @@ JUMP_SIZE = TILE_SIZE
 # Define a velocidade em x
 SPEED_X = 5
 
-
-# Define os tipos de tiles
-#BLOCK = 0
-#EMPTY = -1
 
 # Define o mapa com os tipos de tiles
 MAP = [
@@ -74,6 +67,7 @@ MAP = [
 STILL = 0
 JUMPING = 1
 FALLING = 2
+CLIMBING = 3
 
 # Class que representa os blocos do cenário
 class Tile(pygame.sprite.Sprite):
@@ -197,7 +191,7 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
-        player_img = pygame.transform.scale(mob_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+        mob_img = pygame.transform.scale(mob_img, (32, 32))
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = mob_img
@@ -289,14 +283,15 @@ def game_screen(screen):
     # Cria um grupo somente com os sprites de bloco.
     # Sprites de block são aqueles que impedem o movimento do jogador
     blocks = pygame.sprite.Group()
-
-    #
+    # Cria um grupo somente com os sprites de escadas.
+    # Sprites de escada são aqueles que possibilitam a movimentação vertical do personagem.
+    stairs = pygame.sprite.Group()    
     
 
     # Cria Sprite do jogador
-    player = Player(assets["PLAYER_IMG"], 26, 26, blocks)
-
-    thanos = Mob(assets["THANOS_IMG"], 26, 26, blocks)
+    player = Player(assets["PLAYER_IMG"], 20, 31, blocks)
+    # Cria Sprite do Thanos
+    thanos = Mob(assets["THANOS_IMG"], 4, 14, blocks)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -309,7 +304,7 @@ def game_screen(screen):
             if tile_type == 2:
                 tile = Tile(assets["ESCADA"], row, column)
                 all_sprites.add(tile)
-                blocks.add(tile)
+                stairs.add(tile)
             if tile_type == 3:
                 tile = Tile(assets["BLOCK2"], row, column)
                 all_sprites.add(tile)
@@ -319,6 +314,7 @@ def game_screen(screen):
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por
     # cima dos blocos
     all_sprites.add(player)
+    # Adiciona o Thanos no grupo de sprites por último
     all_sprites.add(thanos)
 
     PLAYING = 0
