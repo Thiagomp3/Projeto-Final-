@@ -87,7 +87,7 @@ def load_assets(img_dir):#, snd_dir):
     assets["escada"] = pygame.image.load(path.join(img_dir, "escada.png"))
     assets["esteira"] = pygame.image.load(path.join(img_dir, "Esteira.png"))
     
-    assets["player_img"]= pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["player_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
     '''
     assets["mob_img"]= pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
     assets["bullet_img"]= pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
@@ -121,7 +121,7 @@ class Tile(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
-    def __init__(self, player_img, row, column, platforms, blocks):
+    def __init__(self, player_img):
 
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -131,7 +131,7 @@ class Player(pygame.sprite.Sprite):
         self.state = STILL
 
         # Ajusta o tamanho da imagem
-        player_img = pygame.image.load(path.join(img_dir, "Peter Quill.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "AvatarPeterQuill.png")).convert()
         
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = player_img
@@ -139,13 +139,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Guarda os grupos de sprites para tratar as colisões
-        self.platforms = platforms
-        self.blocks = blocks
+        
 
         # Posiciona o personagem
         # row é o índice da linha embaixo do personagem
-        self.rect.x = column * TILE_SIZE
-        self.rect.bottom = row * TILE_SIZE
+        self.rect.x = 1
+        self.rect.y = 1
 
         # Inicializa velocidades
         self.speedx = 0
@@ -489,11 +488,11 @@ destroy_sound = assets["destroy_sound"]
 pew_sound = assets["pew_sound"]
 '''
 # Cria uma nave. O construtor será chamado automaticamente.
-#player = Player(assets["player_img"])
+player = Player(assets["player_img"])
 
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-#all_sprites.add(player)
+all_sprites.add(player)
 '''
 # Cria um grupo só dos meteoros
 mobs = pygame.sprite.Group()
