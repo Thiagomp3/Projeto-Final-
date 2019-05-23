@@ -137,6 +137,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         # Se colidiu com algum bloco, volta para o ponto antes da colisão
         collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Se ta subindo
+        #subindo = pygame.sprite.spritecollide(self,s)
         # Corrige a posição do personagem para antes da colisão
         for collision in collisions:
             # Estava indo para baixo
@@ -181,20 +183,20 @@ class Player(pygame.sprite.Sprite):
 
 
 #classe do Thanos
-class Mob(pygame.sprite.Sprite):
+class Thanos(pygame.sprite.Sprite):
 
     # Construtor da classe.
-    def __init__(self, mob_img, row, column, blocks):
+    def __init__(self, thanos_img, row, column, blocks):
 
 
 # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
-        mob_img = pygame.transform.scale(mob_img, (32, 32))
+        mob_img = pygame.transform.scale(thanos_img, (160, 160))
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
-        self.image = mob_img
+        self.image = thanos_img
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
@@ -206,8 +208,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect.x = column * TILE_SIZE
         self.rect.bottom = row * TILE_SIZE
 
-        self.speedx = 0
-        self.speedy = 0
+        #for mudar velocidade 
+        self.speedx = 5
+        self.speedy = 5
 
     # Metodo que atualiza a posição do personagem
     def update(self):
@@ -259,6 +262,36 @@ class Mob(pygame.sprite.Sprite):
             elif self.speedx < 0:
                 self.rect.left = collision.rect.right
 
+class Meteoro(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, x, y, meteoro_img):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        self.image = meteoro_img
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Coloca no lugar inicial definido em x, y do constutor
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = -10
+
+    # Metodo que atualiza a posição do meteoro
+    def update(self):
+        self.rect.y += self.speedy
+        
+        # Se o tiro passar do inicio da tela, morre.
+        if self.rect.right < 0 and self.rect.left > 0:
+            self.kill()
+
         
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
@@ -291,7 +324,7 @@ def game_screen(screen):
     # Cria Sprite do jogador
     player = Player(assets["PLAYER_IMG"], 20, 31, blocks)
     # Cria Sprite do Thanos
-    thanos = Mob(assets["THANOS_IMG"], 4, 14, blocks)
+    thanos = Thanos(assets["THANOS_IMG"], 4, 14, blocks)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
