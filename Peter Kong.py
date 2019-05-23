@@ -39,23 +39,23 @@ MAP = [
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,2,0,2,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,2,0,2,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+    [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3],
     [0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
     [0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
     [0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
-    [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+    [3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,2,3,3],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
-    [0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0,1,1,1,1,1,1,1,1,0],
     [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
-    [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+    [3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
     [0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
@@ -94,7 +94,7 @@ class Tile(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
-    def __init__(self, player_img, row, column, blocks):
+    def __init__(self, player_img, row, column, blocks,stairs):
 
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -114,6 +114,9 @@ class Player(pygame.sprite.Sprite):
         # Guarda o grupo de blocos para tratar as colisões
         self.blocks = blocks
 
+        # Bloco da escadas
+        self.stairs = stairs
+
         # Posiciona o personagem
         # row é o índice da linha embaixo do personagem
         self.rect.x = column * TILE_SIZE
@@ -126,10 +129,11 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         # Vamos tratar os movimentos de maneira independente.
         # Primeiro tentamos andar no eixo y e depois no x.
-
+        colidiu_escada = pygame.sprite.spritecollide(self, self.stairs, False)
         # Tenta andar em y
         # Atualiza a velocidade aplicando a aceleração da gravidade
-        self.speedy += GRAVITY
+        if not colidiu_escada: 
+            self.speedy += GRAVITY
         # Atualiza o estado para caindo
         if self.speedy > 0:
             self.state = FALLING
@@ -138,7 +142,7 @@ class Player(pygame.sprite.Sprite):
         # Se colidiu com algum bloco, volta para o ponto antes da colisão
         collisions = pygame.sprite.spritecollide(self, self.blocks, False)
         # Se ta subindo
-        #subindo = pygame.sprite.spritecollide(self,s)
+        
         # Corrige a posição do personagem para antes da colisão
         for collision in collisions:
             # Estava indo para baixo
@@ -180,6 +184,10 @@ class Player(pygame.sprite.Sprite):
         if self.state == STILL:
             self.speedy -= JUMP_SIZE
             self.state = JUMPING
+    # Subir escada
+    def climb(self):
+        if self.state == STILL:
+            self.spee
 
 
 #classe do Thanos
@@ -322,7 +330,7 @@ def game_screen(screen):
     
 
     # Cria Sprite do jogador
-    player = Player(assets["PLAYER_IMG"], 20, 31, blocks)
+    player = Player(assets["PLAYER_IMG"], 20, 31, blocks, stairs)
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 4, 14, blocks)
 
@@ -373,16 +381,33 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                elif event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_SPACE:
                     player.jump()
+                elif event.key == pygame.K_UP:
+                    colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
+                    if colidiu_escada:
+                        player.speedy = -5
+                        player.state = CLIMBING
+                    else:
+                        player.speedy = -25
+                elif event.key == pygamge.K_DOWN:
+                    colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
+                    if colidiu_escada:
+                        player.speedy = 5
+                        player.state = CLIMBING
+
 
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
+                #D
                 # Dependendo da tecla, altera o estado do jogador.
                 if event.key == pygame.K_LEFT:
                     player.speedx += SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx -= SPEED_X
+                elif colidiu_escada:
+                    if event.key == K_UP:
+                        player.speedy = 0 
 
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
