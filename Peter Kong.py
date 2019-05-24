@@ -283,29 +283,78 @@ class Thanos(pygame.sprite.Sprite):
 class Meteoro(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, meteoro_img):
+    def __init__(self, x, y, meteoro_img, blocks):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        self.image = meteoro_img
+        self.image = pygame.transform.scale(meteoro_img, (32, 32))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
+
+        self.blocks = blocks
         
         # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.speedy = -10
-
+        self.rect.centery = y
+        self.rect.bottom = x
+        self.speedx = 5
+        self.speedy = 0
     # Metodo que atualiza a posição do meteoro
     def update(self):
+
+
+        # Tenta andar em y
+        # Atualiza a velocidade aplicando a aceleração da gravidade
+        self.speedy += GRAVITY
+        # Atualiza o estado para caindo
+        if self.speedy > 0:
+            self.state = FALLING
+        # Atualiza a posição y
         self.rect.y += self.speedy
-        
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+            # Estava indo para baixo
+            if self.speedy > 0:
+                self.rect.bottom = collision.rect.top
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+            # Estava indo para cima
+            elif self.speedy < 0:
+                self.rect.top = collision.rect.bottom
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+
+        # Tenta andar em x
+        self.rect.x += self.speedx
+        # Corrige a posição caso tenha passado do tamanho da janela
+        if self.rect.left < 0:
+            self.rect.left = 0
+            self.speedx = 5
+        elif self.rect.right >= WIDTH:
+            self.rect.right = WIDTH - 1
+            self.speedx = -5
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+
+            # Estava indo para a direita
+            if self.speedx > 0:
+                self.rect.right = collision.rect.left
+            # Estava indo para a esquerda
+            elif self.speedx < 0:
+                self.rect.left = collision.rect.right
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.right < 0 and self.rect.left > 0:
             self.kill()
@@ -346,7 +395,7 @@ def game_screen(screen):
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
     #Cria Sprite do Meteoro
-    #meteoro = Meteoro(assets["METEORO_IMG"], 9, 6, blocks, stairs)
+    meteoro = Meteoro(9, 6, assets["METEORO_IMG"], blocks)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -371,8 +420,9 @@ def game_screen(screen):
     all_sprites.add(player)
     # Adiciona o Thanos no grupo de sprites por último
     all_sprites.add(thanos)
+    
 
-    #all_sprites.add(meteoro)
+    all_sprites.add(meteoro)
 
     PLAYING = 0
     DONE = 1
@@ -401,6 +451,7 @@ def game_screen(screen):
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
+
 
                         player.rect.centerx= colidiu_escada[0].rect.centerx
 
