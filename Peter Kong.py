@@ -200,11 +200,7 @@ class Thanos(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
-<<<<<<< HEAD
-        Thanos_img = pygame.transform.scale(thanos_img, (160, 160))
-=======
         thanos_img = pygame.transform.scale(thanos_img, (160, 160))
->>>>>>> 23f4b38a4ea1353ec8f2c480a3dec9c91be23a1a
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -314,7 +310,8 @@ def load_assets(img_dir):
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos.png")).convert()
+    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
     return assets
 
 
@@ -336,9 +333,9 @@ def game_screen(screen):
     
 
     # Cria Sprite do jogador
-    player = Player(assets["PLAYER_IMG"], 20, 31, blocks, stairs)
+    player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
     # Cria Sprite do Thanos
-    thanos = Thanos(assets["THANOS_IMG"], 4, 14, blocks)
+    thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -406,7 +403,6 @@ def game_screen(screen):
 
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
-                #D
                 # Dependendo da tecla, altera o estado do jogador.
                 if event.key == pygame.K_LEFT:
                     player.speedx += SPEED_X
