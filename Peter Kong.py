@@ -310,7 +310,7 @@ def load_assets(img_dir):
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos.png")).convert()
+    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
     assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
     return assets
 
@@ -336,6 +336,8 @@ def game_screen(screen):
     player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
+    #Cria Sprite do Meteoro
+    meteoro = Meteoro(assets["METEORO_IMG"], 9, 6, blocks, stairs)
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -360,6 +362,8 @@ def game_screen(screen):
     all_sprites.add(player)
     # Adiciona o Thanos no grupo de sprites por último
     all_sprites.add(thanos)
+
+    all_sprites.add(meteoro)
 
     PLAYING = 0
     DONE = 1
