@@ -13,8 +13,8 @@ TITULO = 'Exemplo de Pulo com obstáculos'
 WIDTH = 1024 # Largura da tela
 HEIGHT = 800 # Altura da tela
 TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado)
-PLAYER_WIDTH = TILE_SIZE
-PLAYER_HEIGHT = TILE_SIZE
+PLAYER_WIDTH = 32   
+PLAYER_HEIGHT = 32
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -200,7 +200,8 @@ class Thanos(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
-        thanos_img = pygame.transform.scale(thanos_img, (160, 160))
+
+        thanos_img = pygame.transform.scale(thanos_img, (96, 96))
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -275,7 +276,7 @@ class Thanos(pygame.sprite.Sprite):
 class Meteoro(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, meteoro_img):
+    def __init__(self, x, y, meteoro_img, blocks, stairs):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -284,7 +285,7 @@ class Meteoro(pygame.sprite.Sprite):
         self.image = meteoro_img
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        #self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -297,6 +298,47 @@ class Meteoro(pygame.sprite.Sprite):
     # Metodo que atualiza a posição do meteoro
     def update(self):
         self.rect.y += self.speedy
+
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+            # Estava indo para baixo
+            if self.speedy > 0:
+                self.rect.bottom = collision.rect.top
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+            # Estava indo para cima
+            elif self.speedy < 0:
+                self.rect.top = collision.rect.bottom
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+
+        # Tenta andar em x
+        self.rect.x += self.speedx
+        # Corrige a posição caso tenha passado do tamanho da janela
+        if self.rect.left < 0:
+            self.rect.left = 0
+            self.speedx = 5
+        elif self.rect.right >= WIDTH:
+            self.rect.right = WIDTH - 1
+            self.speedx = -5
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+
+            # Estava indo para a direita
+            if self.speedx > 0:
+                self.rect.right = collision.rect.left
+            # Estava indo para a esquerda
+            elif self.speedx < 0:
+                self.rect.left = collision.rect.right
+
+
         
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.right < 0 and self.rect.left > 0:
@@ -312,6 +354,7 @@ def load_assets(img_dir):
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
     assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+
     return assets
 
 
@@ -388,12 +431,11 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                elif event.key == pygame.K_SPACE:
-
-                    player.jump()
+                
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
+                        #player.rect= 
                         player.speedy = -5
                         player.state = CLIMBING
                     else:
