@@ -289,7 +289,7 @@ class Meteoro(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        self.image = pygame.transform.scale(meteoro_img, (32, 32))
+        self.image = pygame.transform.scale(meteoro_img, (10, 10))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -302,7 +302,7 @@ class Meteoro(pygame.sprite.Sprite):
         # Coloca no lugar inicial definido em x, y do constutor
         self.rect.centery = y
         self.rect.bottom = x
-        self.speedx = 5
+        self.speedx = 1
         self.speedy = 0
     # Metodo que atualiza a posição do meteoro
     def update(self):
@@ -368,7 +368,7 @@ def load_assets(img_dir):
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
-    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "New Piskel.png")).convert()
 
     return assets
 
