@@ -451,17 +451,17 @@ def game_screen(screen):
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
-
-
                         player.rect.centerx= colidiu_escada[0].rect.centerx
-
                         player.speedy = -5
                         player.state = CLIMBING
+                        
                     else:
                         player.speedy = -25
+                        
                 elif event.key == pygame.K_DOWN:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
+                        player.rect.centerx= colidiu_escada[1].rect.centerx
                         player.speedy = 5
                         player.state = CLIMBING
 
