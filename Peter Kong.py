@@ -141,7 +141,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         # Se colidiu com algum bloco, volta para o ponto antes da colisão
         collisions = pygame.sprite.spritecollide(self, self.blocks, False)
-        # Se ta subindo
         
         # Corrige a posição do personagem para antes da colisão
         for collision in collisions:
@@ -201,7 +200,11 @@ class Thanos(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
+<<<<<<< HEAD
         Thanos_img = pygame.transform.scale(thanos_img, (160, 160))
+=======
+        thanos_img = pygame.transform.scale(thanos_img, (160, 160))
+>>>>>>> 23f4b38a4ea1353ec8f2c480a3dec9c91be23a1a
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -257,12 +260,15 @@ class Thanos(pygame.sprite.Sprite):
         # Corrige a posição caso tenha passado do tamanho da janela
         if self.rect.left < 0:
             self.rect.left = 0
+            self.speedx = 5
         elif self.rect.right >= WIDTH:
             self.rect.right = WIDTH - 1
+            self.speedx = -5
         # Se colidiu com algum bloco, volta para o ponto antes da colisão
         collisions = pygame.sprite.spritecollide(self, self.blocks, False)
         # Corrige a posição do personagem para antes da colisão
         for collision in collisions:
+
             # Estava indo para a direita
             if self.speedx > 0:
                 self.rect.right = collision.rect.left
