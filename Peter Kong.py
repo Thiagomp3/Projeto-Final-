@@ -13,8 +13,8 @@ TITULO = 'Exemplo de Pulo com obstáculos'
 WIDTH = 1024 # Largura da tela
 HEIGHT = 800 # Altura da tela
 TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado)
-PLAYER_WIDTH = TILE_SIZE
-PLAYER_HEIGHT = TILE_SIZE
+PLAYER_WIDTH = 32   
+PLAYER_HEIGHT = 32
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -200,11 +200,9 @@ class Thanos(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
-<<<<<<< HEAD
-        Thanos_img = pygame.transform.scale(thanos_img, (160, 160))
-=======
-        thanos_img = pygame.transform.scale(thanos_img, (160, 160))
->>>>>>> 23f4b38a4ea1353ec8f2c480a3dec9c91be23a1a
+
+        thanos_img = pygame.transform.scale(thanos_img, (96, 96))
+
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -314,7 +312,7 @@ def load_assets(img_dir):
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
     return assets
 
 
@@ -387,12 +385,11 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                elif event.key == pygame.K_SPACE:
-
-                    player.jump()
+                
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
+                        #player.rect= 
                         player.speedy = -5
                         player.state = CLIMBING
                     else:
