@@ -281,6 +281,38 @@ class Thanos(pygame.sprite.Sprite):
             # Estava indo para a esquerda
             elif self.speedx < 0:
                 self.rect.left = collision.rect.right
+                
+# Classe Bullet que representa os tiros
+class Tiro(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, x, y, tiro_img):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        tiro_img = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+        self.image = tiro_img
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Coloca no lugar inicial definido em x, y do constutor
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = -10
+
+    # Metodo que atualiza a posição da navinha
+    def update(self):
+        self.rect.y += self.speedy
+        
+        # Se o tiro passar do inicio da tela, morre.
+        if self.rect.bottom < 0:
+            self.kill()
 
 class Meteoro(pygame.sprite.Sprite):
     
@@ -291,7 +323,7 @@ class Meteoro(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        self.image = pygame.transform.scale(meteoro_img, (10, 10))
+        self.image = pygame.transform.scale(meteoro_img, (30, 30))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -304,7 +336,7 @@ class Meteoro(pygame.sprite.Sprite):
         # Coloca no lugar inicial definido em x, y do constutor
         self.rect.centery = y
         self.rect.bottom = x
-        self.speedx = 1
+        self.speedx = 1.5
         self.speedy = 0
     # Metodo que atualiza a posição do meteoro
     def update(self):
@@ -371,6 +403,9 @@ def load_assets(img_dir):
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
     assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+    assets["TIRO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+     
+     #dps trocar o sprite do tiro
 
     return assets
 
@@ -397,7 +432,9 @@ def game_screen(screen):
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
     #Cria Sprite do Meteoro
-    meteoro = Meteoro(9, 6, assets["METEORO_IMG"], blocks)
+    meteoro = Meteoro(16, 6, assets["METEORO_IMG"], blocks)
+    #Cria Sprite do Tiro    
+    tiro= Tiro(9, 6, assets["TIRO_IMG"])
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -419,12 +456,10 @@ def game_screen(screen):
 
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por
     # cima dos blocos
-    all_sprites.add(player)
-    # Adiciona o Thanos no grupo de sprites por último
-    all_sprites.add(thanos)
     
+    # Adiciona o Thanos no grupo de sprites por último
+    all_sprites.add(player,thanos, meteoro,tiro)
 
-    all_sprites.add(meteoro)
 
     PLAYING = 0
     DONE = 1
