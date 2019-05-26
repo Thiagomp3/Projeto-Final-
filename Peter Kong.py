@@ -7,14 +7,16 @@ from os import path
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
+
 
 # Dados gerais do jogo.
 TITULO = 'Exemplo de Pulo com obstáculos'
 WIDTH = 1024 # Largura da tela
-HEIGHT = 800 # Altura da tela
-TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado)
-PLAYER_WIDTH = 32   
-PLAYER_HEIGHT = 32
+HEIGHT = 600 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
+TILE_SIZE = 24 # Tamanho de cada tile (cada tile é um quadrado) 32
+PLAYER_WIDTH = 24  #32    
+PLAYER_HEIGHT = 24 #32
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -368,7 +370,7 @@ def load_assets(img_dir):
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
-    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "New Piskel.png")).convert()
+    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
 
     return assets
 
@@ -492,6 +494,14 @@ def game_screen(screen):
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
+
+#Carrega a musica do jogo
+pygame.mixer.music.load(path.join(snd_dir, 'TheAvengersTheme.mp3'))
+pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play(loops=-1)
+
+
+
 
 # Tamanho da tela.
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
