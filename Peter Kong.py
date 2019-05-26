@@ -210,7 +210,7 @@ class Thanos(pygame.sprite.Sprite):
 
         # Ajusta o tamanho da imagem
 
-        thanos_img = pygame.transform.scale(thanos_img, (96, 96))
+        thanos_img = pygame.transform.scale(thanos_img, (48, 48))#96,96
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -226,7 +226,7 @@ class Thanos(pygame.sprite.Sprite):
         self.rect.bottom = row * TILE_SIZE
 
         #for mudar velocidade 
-        self.speedx = 5
+        self.speedx = 0.5
         self.speedy = 5
 
     # Metodo que atualiza a posição do personagem
@@ -304,11 +304,12 @@ class Tiro(pygame.sprite.Sprite):
         # Coloca no lugar inicial definido em x, y do constutor
         self.rect.bottom = y
         self.rect.centerx = x
-        self.speedy = -10
+        self.speedy = +10
 
     # Metodo que atualiza a posição da navinha
     def update(self):
         self.rect.y += self.speedy
+        
         
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
@@ -431,10 +432,16 @@ def game_screen(screen):
     player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
+    
+    '''
     #Cria Sprite do Meteoro
     meteoro = Meteoro(16, 6, assets["METEORO_IMG"], blocks)
     #Cria Sprite do Tiro    
     tiro= Tiro(9, 6, assets["TIRO_IMG"])
+    
+    acho q nao é assim, pq isso deixa criado desde o comeco, no caso dos tiros e meteoros, o negocio comeca
+    so dps de um tempo
+    '''  
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -458,7 +465,7 @@ def game_screen(screen):
     # cima dos blocos
     
     # Adiciona o Thanos no grupo de sprites por último
-    all_sprites.add(player,thanos, meteoro,tiro)
+    all_sprites.add(player,thanos)#, meteoro,tiro)
 
 
     PLAYING = 0
@@ -476,7 +483,7 @@ def game_screen(screen):
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 state = DONE
-
+            '''ali depende do tamanho do sprite do thanos'''
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera o estado do jogador.
@@ -484,7 +491,9 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                
+                    tiroo = Tiro(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["TIRO_IMG"]) 
+                    all_sprites.add(tiroo)
+     
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
                     if colidiu_escada:
@@ -513,6 +522,23 @@ def game_screen(screen):
                 elif colidiu_escada:
                     if event.key == pygame.K_UP:
                         player.speedy = 0 
+            
+            '''
+            aqui embaixo ta dando bosta
+            
+            
+            
+            
+            
+            
+            if event.type == pygame.K_RIGHT:
+                tiroo = Tiro(thanos.rect.x, thanos.rect.y,assets["TIRO_IMG"])
+                all_sprites.add(tiroo)
+            
+            
+            '''
+            
+                #pew_sound.play()
 
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
