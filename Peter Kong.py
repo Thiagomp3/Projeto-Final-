@@ -226,7 +226,7 @@ class Thanos(pygame.sprite.Sprite):
         self.rect.bottom = row * TILE_SIZE
 
         #for mudar velocidade 
-        self.speedx = 0.5
+        self.speedx = 3
         self.speedy = 5
 
     # Metodo que atualiza a posição do personagem
@@ -557,7 +557,7 @@ pygame.init()
 pygame.mixer.init()
 
 #Carrega a musica do jogo
-pygame.mixer.music.load(path.join(snd_dir, 'TheAvengersTheme.mp3'))
+pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
 pygame.mixer.music.set_volume(0.4)
 pygame.mixer.music.play(loops=-1)
 
