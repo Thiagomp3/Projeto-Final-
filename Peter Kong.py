@@ -351,7 +351,7 @@ class Gamora(pygame.sprite.Sprite):
 class Meteor(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, meteor_img, blocks):
+    def __init__(self, meteor_img, row, column, blocks):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -369,7 +369,7 @@ class Meteor(pygame.sprite.Sprite):
         
         # Coloca no lugar inicial definido em x, y do constutor
         self.rect.centery = y
-        self.rect.bottom = x
+        self.rect.centerx = x
         self.speedx = 1.5
         self.speedy = 0
 
@@ -432,7 +432,7 @@ class Meteor(pygame.sprite.Sprite):
 class Fireball(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, fireball_img):
+    def __init__(self, fireball_img, row, column):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -447,7 +447,7 @@ class Fireball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
+        self.rect.centery = y
         self.rect.centerx = x
         self.speedy = +10
 
@@ -473,8 +473,6 @@ def load_assets(img_dir):
     assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
     assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
-     
-     #dps trocar o sprite do tiro
 
     return assets
 
@@ -483,9 +481,12 @@ def game_screen(screen):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
+    #Carrega o som de fundo do jogo
+    pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+    pygame.mixer.music.set_volume(0.4)
+
     # Carrega assets
     assets = load_assets(img_dir)
-
     # Cria um grupo de todos os sprites.
     all_sprites = pygame.sprite.Group()
 
@@ -501,20 +502,6 @@ def game_screen(screen):
     # Grupo Fireballs
     fireballs = pygame.sprite.Group()
 
-    #Adiciona vários meteoros ao grupo de meteoros
-    for i in range(8):
-    m = Meteor()
-    all_sprites.add(m)
-    mobs.add(m)
-
-    #Adiciona várias fireballs ao grupo de fireballs
-    for i in range(8):
-    f = Fireball()
-    all_sprites.add(m)
-    mobs.add(m)
-
-
-    
 
     # Cria Sprite do jogador
     player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
@@ -523,6 +510,20 @@ def game_screen(screen):
     # Cria Sprite da Gamora
     gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
     
+
+    #Adiciona vários meteoros ao grupo de meteoros
+    for i in range(8):
+    	m = Meteor(assets["METEOR_IMG"], thanos.rectx, thanos.recty, blocks)
+    	all_sprites.add(m)
+    	meteors.add(m)
+
+    #Adiciona várias fireballs ao grupo de fireballs
+    for i in range(8):
+    	f = Fireball(assets["METEOR_IMG"], thanos.rectx, thanos.recty, blocks)
+    	all_sprites.add(f)
+    	fireballs.add(f)
+
+
 
 
     '''
@@ -553,10 +554,8 @@ def game_screen(screen):
                 blocks.add(tile)
 
 
-    # Adiciona o jogador no grupo de sprites por último para ser desenhado por
-    # cima dos blocos
     
-    # Adiciona o Thanos no grupo de sprites por último
+    # Adiciona o player, gamora e thanos por último
     all_sprites.add(player,thanos, gamora)#, meteoro,tiro)
 
 
@@ -575,12 +574,16 @@ def game_screen(screen):
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 state = DONE
+
             '''ali depende do tamanho do sprite do thanos'''
+
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
+
                 # Dependendo da tecla, altera o estado do jogador.
                 if event.key == pygame.K_LEFT:
                     player.speedx -= SPEED_X
+                
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
                     tiro = Fireball(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["FIREBALL_IMG"]) 
@@ -591,8 +594,7 @@ def game_screen(screen):
                     if colidiu_escada:
                         player.rect.centerx= colidiu_escada[0].rect.centerx
                         player.speedy = -5
-                        player.state = CLIMBING
-                        
+                        player.state = CLIMBING        
                     else:
                         player.speedy = -25
                         
@@ -603,9 +605,9 @@ def game_screen(screen):
                         player.speedy = 5
                         player.state = CLIMBING
 
-
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
+
                 # Dependendo da tecla, altera o estado do jogador.
                 if event.key == pygame.K_LEFT:
                     player.speedx += SPEED_X
@@ -627,11 +629,8 @@ def game_screen(screen):
             '''
             aqui embaixo ta dando bosta
             
-            
-            
-            
-            
-            
+                     
+          
             if event.type == pygame.K_RIGHT:
                 tiroo = Tiro(thanos.rect.x, thanos.rect.y,assets["TIRO_IMG"])
                 all_sprites.add(tiroo)
@@ -646,6 +645,7 @@ def game_screen(screen):
         all_sprites.update()
 
         if state == PLAYING:
+            '''
             # Verifica se houve colisão entre tiro e meteoro
             hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
             for hit in hits: # Pode haver mais de um
@@ -661,10 +661,25 @@ def game_screen(screen):
 
                 # Ganhou pontos!
                 score += 100
-            
+            '''
             # Verifica se houve colisão entre nave e meteoro
-            hits = pygame.sprite.spritecollide(player, gamora, False)
-            if hits:
+            hits_G = pygame.sprite.spritecollide(player, gamora, True, True)
+            if hits_G:
+                time.sleep(1)
+                state = DONE
+
+            hits_T = pygame.sprite.spritecollide(player, thanos, True)
+            if hits_T:
+                time.sleep(1)
+                state = DONE
+
+            hits_M = pygame.sprite.spritecollide(player, meteors, True, True)
+            if hits_M:
+                time.sleep(1)
+                state = DONE
+
+            hits_F = pygame.sprite.spritecollide(player, fireballs, True, True)
+            if hits_F:
                 time.sleep(1)
                 state = DONE
 
@@ -686,10 +701,8 @@ pygame.mixer.init()
 #pygame.mixer.music.play(loops=-1)
 
 
-
-
 # Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((600, 600))
 
 # Nome do jogo
 pygame.display.set_caption(TITULO)
