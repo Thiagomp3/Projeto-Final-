@@ -477,6 +477,7 @@ def load_assets(img_dir):
     assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
     assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
+    assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
 
     return assets
 
@@ -484,6 +485,10 @@ def load_assets(img_dir):
 def game_screen(screen):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
+
+    # Carrega o fundo do jogo
+    background = assets["background"]
+    background_rect = background.get_rect()
 
     #Carrega o som de fundo do jogo
     pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
@@ -496,13 +501,10 @@ def game_screen(screen):
 
     # Cria um grupo somente com os sprites de bloco.
     blocks = pygame.sprite.Group()
-
     # Cria um grupo somente com os sprites de escadas.
     stairs = pygame.sprite.Group()
-
     # Grupo de meteoros
     meteors = pygame.sprite.Group()
-
     # Grupo Fireballs
     fireballs = pygame.sprite.Group()
 
@@ -526,7 +528,6 @@ def game_screen(screen):
     	f = Fireball(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery)
     	all_sprites.add(f)
     	fireballs.add(f)
-
 
 
 
@@ -614,12 +615,6 @@ def game_screen(screen):
 
 
 
-
-
-
-
-
-
             '''
             aqui embaixo ta dando bosta
             
@@ -679,6 +674,7 @@ def game_screen(screen):
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
+        screen.blit(background, background_rect)
         all_sprites.draw(screen)
 
         # Depois de desenhar tudo, inverte o display.
