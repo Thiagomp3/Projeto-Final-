@@ -198,7 +198,7 @@ class Player(pygame.sprite.Sprite):
             self.spee
 
 
-#classe do Thanos
+# Classe do Thanos
 class Thanos(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -281,39 +281,71 @@ class Thanos(pygame.sprite.Sprite):
             # Estava indo para a esquerda
             elif self.speedx < 0:
                 self.rect.left = collision.rect.right
-                
-# Classe Bullet que representa os tiros
-class Tiro(pygame.sprite.Sprite):
-    
+
+# Classe Gamora que representa a personagem Gamora
+class Gamora(pygame.sprite.Sprite):
+
     # Construtor da classe.
-    def __init__(self, x, y, tiro_img):
-        
+    def __init__(self, gamora_img, row, column, blocks):
+
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        tiro_img = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
-        self.image = tiro_img
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
+
+        # Define estado atual
+        # Usamos o estado para decidir se o jogador pode ou não pular
+        self.state = STILL
+
+        # Ajusta o tamanho da imagem
+        gamora_img = pygame.transform.scale(gamora_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+
+        # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
+        self.image = gamora_img
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        
-        # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.speedy = +10
 
-    # Metodo que atualiza a posição da navinha
+        # Guarda o grupo de blocos para tratar as colisões
+        self.blocks = blocks
+
+        # Posiciona o personagem
+        # row é o índice da linha embaixo do personagem
+        self.rect.x = column * TILE_SIZE
+        self.rect.bottom = row * TILE_SIZE
+
+        self.speedx = 0
+        self.speedy = 0
+
     def update(self):
-        self.rect.y += self.speedy
-        
-        
-        # Se o tiro passar do inicio da tela, morre.
-        if self.rect.bottom < 0:
-            self.kill()
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+            # Estava indo para baixo
+            if self.speedy > 0:
+                self.rect.bottom = collision.rect.top
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+            # Estava indo para cima
+            elif self.speedy < 0:
+                self.rect.top = collision.rect.bottom
+                # Se colidiu com algo, para de cair
+                self.speedy = 0
+                # Atualiza o estado para parado
+                self.state = STILL
+
+        # Se colidiu com algum bloco, volta para o ponto antes da colisão
+        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
+        # Corrige a posição do personagem para antes da colisão
+        for collision in collisions:
+
+            # Estava indo para a direita
+            if self.speedx > 0:
+                self.rect.right = collision.rect.left
+            # Estava indo para a esquerda
+            elif self.speedx < 0:
+                self.rect.left = collision.rect.right
+                
 
 class Meteoro(pygame.sprite.Sprite):
     
@@ -339,9 +371,9 @@ class Meteoro(pygame.sprite.Sprite):
         self.rect.bottom = x
         self.speedx = 1.5
         self.speedy = 0
+
     # Metodo que atualiza a posição do meteoro
     def update(self):
-
 
         # Tenta andar em y
         # Atualiza a velocidade aplicando a aceleração da gravidade
@@ -394,6 +426,40 @@ class Meteoro(pygame.sprite.Sprite):
         if self.rect.right < 0 and self.rect.left > 0:
             self.kill()
 
+
+# Classe Tiro que representa a Chuva de Meteoros
+class Tiro(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, x, y, tiro_img):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        self.image = tiro_img
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Coloca no lugar inicial definido em x, y do constutor
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = +10
+
+    # Metodo que atualiza a posição da navinha
+    def update(self):
+        self.rect.y += self.speedy
+        
+        
+        # Se o tiro passar do inicio da tela, morre.
+        if self.rect.bottom < 0:
+            self.kill()
+
+
         
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
@@ -403,8 +469,9 @@ def load_assets(img_dir):
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
-    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
-    assets["TIRO_IMG"] = pygame.image.load(path.join(img_dir, "Meteoro.png")).convert()
+    assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
+    assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
      
      #dps trocar o sprite do tiro
 
@@ -425,13 +492,17 @@ def game_screen(screen):
     blocks = pygame.sprite.Group()
     # Cria um grupo somente com os sprites de escadas.
     # Sprites de escada são aqueles que possibilitam a movimentação vertical do personagem.
-    stairs = pygame.sprite.Group()    
+    stairs = pygame.sprite.Group()
+
+
     
 
     # Cria Sprite do jogador
     player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
     # Cria Sprite do Thanos
     thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
+    # Cria Sprite da Gamora
+    gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
     
     '''
     #Cria Sprite do Meteoro
@@ -465,7 +536,7 @@ def game_screen(screen):
     # cima dos blocos
     
     # Adiciona o Thanos no grupo de sprites por último
-    all_sprites.add(player,thanos)#, meteoro,tiro)
+    all_sprites.add(player,thanos, gamora)#, meteoro,tiro)
 
 
     PLAYING = 0
@@ -491,7 +562,7 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                    tiroo = Tiro(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["TIRO_IMG"]) 
+                    tiroo = Tiro(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["FIREBALL_IMG"]) 
                     all_sprites.add(tiroo)
      
                 elif event.key == pygame.K_UP:
@@ -523,6 +594,15 @@ def game_screen(screen):
                     if event.key == pygame.K_UP:
                         player.speedy = 0 
             
+
+
+
+
+
+
+
+
+
             '''
             aqui embaixo ta dando bosta
             
@@ -543,6 +623,36 @@ def game_screen(screen):
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
         all_sprites.update()
+
+        if state == PLAYING:
+            # Verifica se houve colisão entre tiro e meteoro
+            hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+            for hit in hits: # Pode haver mais de um
+                # O meteoro e destruido e precisa ser recriado
+                destroy_sound.play()
+                m = Mob(assets["mob_img"]) 
+                all_sprites.add(m)
+                mobs.add(m)
+
+                # No lugar do meteoro antigo, adicionar uma explosão.
+                explosao = Explosion(hit.rect.center, assets["explosion_anim"])
+                all_sprites.add(explosao)
+
+                # Ganhou pontos!
+                score += 100
+            
+            # Verifica se houve colisão entre nave e meteoro
+            hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
+            if hits:
+                # Toca o som da colisão
+                boom_sound.play()
+                player.kill()
+                lives -= 1
+                explosao = Explosion(player.rect.center, assets["explosion_anim"])
+                all_sprites.add(explosao)
+                state = EXPLODING
+                explosion_tick = pygame.time.get_ticks()
+                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
