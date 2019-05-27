@@ -206,7 +206,7 @@ class Thanos(pygame.sprite.Sprite):
     def __init__(self, thanos_img, row, column, blocks):
 
 
-# Construtor da classe pai (Sprite).
+		# Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
         # Ajusta o tamanho da imagem
@@ -370,8 +370,8 @@ class Meteor(pygame.sprite.Sprite):
         self.blocks = blocks
         
         # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.centery = y
-        self.rect.centerx = x
+        self.rect.x = column * TILE_SIZE
+        self.rect.bottom = row * TILE_SIZE
         self.speedx = 1.5
         self.speedy = 0
 
@@ -451,8 +451,8 @@ class Fireball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.centery = y
-        self.rect.centerx = x
+        self.rect.x = column * TILE_SIZE
+        self.rect.bottom = row * TILE_SIZE
         self.speedy = +10
 
     # Metodo que atualiza a posição da navinha
@@ -517,28 +517,18 @@ def game_screen(screen):
 
     #Adiciona vários meteoros ao grupo de meteoros
     for i in range(8):
-    	m = Meteor(assets["METEOR_IMG"], thanos.rectx, thanos.recty, blocks)
+    	m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
     	all_sprites.add(m)
     	meteors.add(m)
 
     #Adiciona várias fireballs ao grupo de fireballs
     for i in range(8):
-    	f = Fireball(assets["METEOR_IMG"], thanos.rectx, thanos.recty, blocks)
+    	f = Fireball(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery)
     	all_sprites.add(f)
     	fireballs.add(f)
 
 
 
-
-    '''
-    #Cria Sprite do Meteoro
-    meteoro = Meteoro(16, 6, assets["METEORO_IMG"], blocks)
-    #Cria Sprite do Tiro    
-    tiro= Tiro(9, 6, assets["TIRO_IMG"])
-    
-    acho q nao é assim, pq isso deixa criado desde o comeco, no caso dos tiros e meteoros, o negocio comeca
-    so dps de um tempo
-    '''  
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
