@@ -12,7 +12,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 
 
 # Dados gerais do jogo.
-TITULO = 'Exemplo de Pulo com obstáculos'
+TITULO = 'Peter Kong'
 WIDTH = 1024 # Largura da tela
 HEIGHT = 800 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
 TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
@@ -211,7 +211,7 @@ class Thanos(pygame.sprite.Sprite):
 
         # Ajusta o tamanho da imagem
 
-        thanos_img = pygame.transform.scale(thanos_img, (96, 96))#96,96 #48,48
+        thanos_img = pygame.transform.scale(thanos_img, (96, 96))#96,96 - Luca #48,48 - Lucca
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -297,7 +297,7 @@ class Gamora(pygame.sprite.Sprite):
         self.state = STILL
 
         # Ajusta o tamanho da imagem
-        gamora_img = pygame.transform.scale(gamora_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+        gamora_img = pygame.transform.scale(gamora_img, (PLAYER_WIDTH *2, PLAYER_HEIGHT *2))
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = gamora_img
@@ -355,9 +355,11 @@ class Meteor(pygame.sprite.Sprite):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
+
+        meteor_img = pygame.transform.scale(meteor_img, (30, 30))
         
         # Carregando a imagem de fundo.
-        self.image = pygame.transform.scale(meteor_img, (30, 30))
+        self.image = meteor_img
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -437,6 +439,8 @@ class Fireball(pygame.sprite.Sprite):
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
+        fireball_img = pygame.transform.scale(fireball_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+
         # Carregando a imagem de fundo.
         self.image = fireball_img
         
@@ -702,7 +706,7 @@ pygame.mixer.init()
 
 
 # Tamanho da tela.
-screen = pygame.display.set_mode((600, 600))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
 pygame.display.set_caption(TITULO)
