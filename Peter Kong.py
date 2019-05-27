@@ -3,6 +3,7 @@
 # Importando as bibliotecas necessárias.
 import pygame
 import random
+import time
 from os import path
 
 # Estabelece a pasta que contem as figuras e sons.
@@ -347,16 +348,16 @@ class Gamora(pygame.sprite.Sprite):
                 self.rect.left = collision.rect.right
                 
 
-class Meteoro(pygame.sprite.Sprite):
+class Meteor(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, meteoro_img, blocks):
+    def __init__(self, x, y, meteor_img, blocks):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        self.image = pygame.transform.scale(meteoro_img, (30, 30))
+        self.image = pygame.transform.scale(meteor_img, (30, 30))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -428,16 +429,16 @@ class Meteoro(pygame.sprite.Sprite):
 
 
 # Classe Tiro que representa a Chuva de Meteoros
-class Tiro(pygame.sprite.Sprite):
+class Fireball(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y, tiro_img):
+    def __init__(self, x, y, fireball_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        self.image = tiro_img
+        self.image = fireball_img
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -470,7 +471,7 @@ def load_assets(img_dir):
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
     assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
     assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
-    assets["METEORO_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
+    assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
     assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
      
      #dps trocar o sprite do tiro
@@ -487,12 +488,30 @@ def game_screen(screen):
 
     # Cria um grupo de todos os sprites.
     all_sprites = pygame.sprite.Group()
+
     # Cria um grupo somente com os sprites de bloco.
-    # Sprites de block são aqueles que impedem o movimento do jogador
     blocks = pygame.sprite.Group()
+
     # Cria um grupo somente com os sprites de escadas.
-    # Sprites de escada são aqueles que possibilitam a movimentação vertical do personagem.
     stairs = pygame.sprite.Group()
+
+    # Grupo de meteoros
+    meteors = pygame.sprite.Group()
+
+    # Grupo Fireballs
+    fireballs = pygame.sprite.Group()
+
+    #Adiciona vários meteoros ao grupo de meteoros
+    for i in range(8):
+    m = Meteor()
+    all_sprites.add(m)
+    mobs.add(m)
+
+    #Adiciona várias fireballs ao grupo de fireballs
+    for i in range(8):
+    f = Fireball()
+    all_sprites.add(m)
+    mobs.add(m)
 
 
     
@@ -504,6 +523,8 @@ def game_screen(screen):
     # Cria Sprite da Gamora
     gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
     
+
+
     '''
     #Cria Sprite do Meteoro
     meteoro = Meteoro(16, 6, assets["METEORO_IMG"], blocks)
@@ -562,8 +583,8 @@ def game_screen(screen):
                     player.speedx -= SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                    tiroo = Tiro(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["FIREBALL_IMG"]) 
-                    all_sprites.add(tiroo)
+                    tiro = Fireball(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["FIREBALL_IMG"]) 
+                    all_sprites.add(tiro)
      
                 elif event.key == pygame.K_UP:
                     colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
@@ -642,17 +663,10 @@ def game_screen(screen):
                 score += 100
             
             # Verifica se houve colisão entre nave e meteoro
-            hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
+            hits = pygame.sprite.spritecollide(player, gamora, False)
             if hits:
-                # Toca o som da colisão
-                boom_sound.play()
-                player.kill()
-                lives -= 1
-                explosao = Explosion(player.rect.center, assets["explosion_anim"])
-                all_sprites.add(explosao)
-                state = EXPLODING
-                explosion_tick = pygame.time.get_ticks()
-                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+                time.sleep(1)
+                state = DONE
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
