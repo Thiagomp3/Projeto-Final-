@@ -477,7 +477,7 @@ def load_assets(img_dir):
     assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
     assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
     assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
-    assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
+    assets["BACKGROUND"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
 
     return assets
 
@@ -487,7 +487,7 @@ def game_screen(screen):
     clock = pygame.time.Clock()
 
     # Carrega o fundo do jogo
-    background = assets["background"]
+    background = assets["BACKGROUND"]
     background_rect = background.get_rect()
 
     #Carrega o som de fundo do jogo
