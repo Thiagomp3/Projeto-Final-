@@ -356,7 +356,7 @@ class Meteor(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 
-		meteor_img = pygame.transform.scale(meteor_img, (30, 30))
+		meteor_img = pygame.transform.scale(meteor_img, (48, 60))
 		
 		# Carregando a imagem de fundo.
 		self.image = meteor_img
@@ -439,7 +439,7 @@ class Fireball(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 		
-		fireball_img = pygame.transform.scale(fireball_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+		fireball_img = pygame.transform.scale(fireball_img, (48, 60))
 
 		# Carregando a imagem de fundo.
 		self.image = fireball_img
@@ -478,7 +478,7 @@ def load_assets(img_dir):
 	assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
 	assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
 	assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
-	assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
+	assets["background"] = pygame.image.load(path.join(img_dir, "videoblocks-retro-8-bit-arcade-game-space-in-loop_hqzbawwz1q_thumbnail-full01.png")).convert()
 
 	return assets
 
@@ -491,7 +491,7 @@ def game_screen(screen):
 	assets = load_assets(img_dir)
 
 	# Carrega o fundo do jogo
-	background = assets["background"]
+	background = pygame.transform.scale(assets["background"] , (WIDTH, HEIGHT))
 	background_rect = background.get_rect()
 	
 	# Cria um grupo de todos os sprites.
@@ -502,9 +502,7 @@ def game_screen(screen):
 	# Cria um grupo somente com os sprites de escadas.
 	stairs = pygame.sprite.Group()
 	# Grupo de meteoros
-	meteors = pygame.sprite.Group()
-	# Grupo Fireballs
-	fireballs = pygame.sprite.Group()
+	inimigos = pygame.sprite.Group()
 
 
 	# Cria Sprite do jogador
@@ -513,9 +511,10 @@ def game_screen(screen):
 	thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
 	# Cria Sprite da Gamora
 	gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
-	
 
 
+	#Adiciona o thanos e a gamora no grupo de inimigos
+	inimigos.add(thanos, gamora)
 
 
 	# Cria tiles de acordo com o mapa
@@ -538,8 +537,8 @@ def game_screen(screen):
 
 	
 	# Adiciona o player, gamora e thanos por último
-	all_sprites.add(player,thanos, gamora)#, meteoro,tiro)
-
+	all_sprites.add(player)
+	all_sprites.add(inimigos)
 
 	PLAYING = 0
 	DONE = 1
@@ -617,19 +616,17 @@ def game_screen(screen):
 			
 				#pew_sound.play()
 
-
-				#Adiciona vários meteoros ao grupo de meteoros
-		'''		
+		
+		#Adiciona meteoros ao grupo dos inimigos
 		m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
 		all_sprites.add(m)
-		meteors.add(m)
+		inimigos.add(m)
 
-	#Adiciona várias fireballs ao grupo de fireballs
-
+		#Adiciona fireballs ao grupo de inimigos
 		f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
 		all_sprites.add(f)
-		fireballs.add(f)
-        '''
+		inimigos.add(f)
+ 		
 
 
 
@@ -639,43 +636,12 @@ def game_screen(screen):
 		all_sprites.update()
 
 		if state == PLAYING:
-			'''
-			# Verifica se houve colisão entre tiro e meteoro
-			hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-			for hit in hits: # Pode haver mais de um
-				# O meteoro e destruido e precisa ser recriado
-				destroy_sound.play()
-				m = Mob(assets["mob_img"]) 
-				all_sprites.add(m)
-				mobs.add(m)
 
-				# No lugar do meteoro antigo, adicionar uma explosão.
-				explosao = Explosion(hit.rect.center, assets["explosion_anim"])
-				all_sprites.add(explosao)
-
-				# Ganhou pontos!
-				score += 100
-			'''
-			'''
+			# Colisões
 			# Verifica se houve colisão entre nave e meteoro
-			hits_G = pygame.sprite.spritecollide(player, gamora, True, True)
-			if hits_G:
-				#time.sleep(1)
+			hits = pygame.sprite.spritecollide(player, inimigos, True)
+			if hits:
 				state = DONE
-
-			hits_T = pygame.sprite.spritecollide(player, thanos, True)
-			if hits_T:
-				time.sleep(1)
-				state = DONE
-'''
-			hits_M = pygame.sprite.spritecollide(player, meteors, True)
-			if hits_M:
-				state = DONE
-
-			hits_F = pygame.sprite.spritecollide(player, fireballs, True)
-			if hits_F:
-				state = DONE
-
 			
 
 		# A cada loop, redesenha o fundo e os sprites
