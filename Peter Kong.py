@@ -13,11 +13,11 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
 TITULO = 'Peter Kong'
-WIDTH = 1024 # Largura da tela
-HEIGHT = 800 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
-TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
-PLAYER_WIDTH = 32  #32 #24    
-PLAYER_HEIGHT = 32 #32 #24
+WIDTH = 800 # Largura da tela
+HEIGHT = 600 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
+TILE_SIZE = 24 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
+PLAYER_WIDTH = 24  #32 #24    
+PLAYER_HEIGHT = 24 #32 #24
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -211,7 +211,7 @@ class Thanos(pygame.sprite.Sprite):
 
         # Ajusta o tamanho da imagem
 
-        thanos_img = pygame.transform.scale(thanos_img, (96, 96))#96,96 - Luca #48,48 - Lucca
+        thanos_img = pygame.transform.scale(thanos_img, (48, 48))#96,96 - Luca #48,48 - Lucca
 
         # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
         self.image = thanos_img
@@ -494,8 +494,8 @@ def game_screen(screen):
     background_rect = background.get_rect()
 
     #Carrega o som de fundo do jogo
-    pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
-    pygame.mixer.music.set_volume(0.4)
+    #pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
+    #pygame.mixer.music.set_volume(0.4)
 
     
     # Cria um grupo de todos os sprites.
@@ -690,9 +690,9 @@ pygame.init()
 pygame.mixer.init()
 
 #Carrega a musica do jogo
-#pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
-#pygame.mixer.music.set_volume(0.4)
-#pygame.mixer.music.play(loops=-1)
+pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
+pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play(loops=-1)
 
 
 # Tamanho da tela.
