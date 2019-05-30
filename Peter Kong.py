@@ -476,6 +476,7 @@ def load_assets(img_dir):
 	assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos2.png")).convert()
 	assets["THANOS_IMG"].set_colorkey(BLACK) 
 	assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
+	assets["GAMORA_IMG"].set_colorkey(BLACK)
 	assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
 	assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
 	assets["background"] = pygame.image.load(path.join(img_dir, "videoblocks-retro-8-bit-arcade-game-space-in-loop_hqzbawwz1q_thumbnail-full01.png")).convert()
@@ -567,8 +568,6 @@ def game_screen(screen):
 				
 				elif event.key == pygame.K_RIGHT:
 					player.speedx += SPEED_X
-					tiro = Fireball(assets["FIREBALL_IMG"], thanos.rect.x + 48 , thanos.rect.y + 96) 
-					all_sprites.add(tiro)
 	 
 				elif event.key == pygame.K_UP:
 					colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
@@ -601,34 +600,19 @@ def game_screen(screen):
 			
 
 
-
-			'''
-			aqui embaixo ta dando bosta
-			
-					 
-		  
-			if event.type == pygame.K_RIGHT:
-				tiroo = Tiro(thanos.rect.x, thanos.rect.y,assets["TIRO_IMG"])
-				all_sprites.add(tiroo)
-			
-			
-			'''
-			
-				#pew_sound.play()
+		# FAZER CÓDIGO PARA LANÇAR METEOROS AO TEMPO
 
 		
 		#Adiciona meteoros ao grupo dos inimigos
-		m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
-		all_sprites.add(m)
-		inimigos.add(m)
+		#m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
+		#all_sprites.add(m)
+		#inimigos.add(m)
 
 		#Adiciona fireballs ao grupo de inimigos
-		f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
-		all_sprites.add(f)
-		inimigos.add(f)
- 		
-
-
+		#f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
+		#all_sprites.add(f)
+		#inimigos.add(f)
+ 	
 
 
 		# Depois de processar os eventos.
