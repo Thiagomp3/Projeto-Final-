@@ -476,6 +476,7 @@ def load_assets(img_dir):
 	assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos2.png")).convert()
 	assets["THANOS_IMG"].set_colorkey(BLACK) 
 	assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
+	assets["GAMORA_IMG"].set_colorkey(BLACK)
 	assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
 	assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
 	assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
@@ -629,7 +630,7 @@ def game_screen(screen):
 		f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
 		all_sprites.add(f)
 		fireballs.add(f)
-        '''
+		'''
 
 
 
