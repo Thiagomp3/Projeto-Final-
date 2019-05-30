@@ -207,83 +207,7 @@ class Thanos(pygame.sprite.Sprite):
 
 
 		# Construtor da classe pai (Sprite).
-<<<<<<< HEAD
-        pygame.sprite.Sprite.__init__(self)
 
-        # Ajusta o tamanho da imagem
-
-        thanos_img = pygame.transform.scale(thanos_img, (48, 48))#96,96 - Luca #48,48 - Lucca
-
-        # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
-        self.image = thanos_img
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-
-        # Guarda o grupo de blocos para tratar as colisões
-        self.blocks = blocks
-
-        # Posiciona o personagem
-        # row é o índice da linha embaixo do personagem
-        self.rect.x = column * TILE_SIZE
-        self.rect.bottom = row * TILE_SIZE
-
-        #for mudar velocidade 
-        self.speedx = 3
-        self.speedy = 5
-
-    # Metodo que atualiza a posição do personagem
-    def update(self):
-        # Vamos tratar os movimentos de maneira independente.
-        # Primeiro tentamos andar no eixo y e depois no x.
-
-        # Tenta andar em y
-        # Atualiza a velocidade aplicando a aceleração da gravidade
-        self.speedy += GRAVITY
-        # Atualiza o estado para caindo
-        if self.speedy > 0:
-            self.state = FALLING
-        # Atualiza a posição y
-        self.rect.y += self.speedy
-        # Se colidiu com algum bloco, volta para o ponto antes da colisão
-        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
-        # Corrige a posição do personagem para antes da colisão
-        for collision in collisions:
-            # Estava indo para baixo
-            if self.speedy > 0:
-                self.rect.bottom = collision.rect.top
-                # Se colidiu com algo, para de cair
-                self.speedy = 0
-                # Atualiza o estado para parado
-                self.state = STILL
-            # Estava indo para cima
-            elif self.speedy < 0:
-                self.rect.top = collision.rect.bottom
-                # Se colidiu com algo, para de cair
-                self.speedy = 0
-                # Atualiza o estado para parado
-                self.state = STILL
-
-        # Tenta andar em x
-        self.rect.x += self.speedx
-        # Corrige a posição caso tenha passado do tamanho da janela
-        if self.rect.left < 0:
-            self.rect.left = 0
-            self.speedx = 5
-        elif self.rect.right >= WIDTH:
-            self.rect.right = WIDTH - 1
-            self.speedx = -5
-        # Se colidiu com algum bloco, volta para o ponto antes da colisão
-        collisions = pygame.sprite.spritecollide(self, self.blocks, False)
-        # Corrige a posição do personagem para antes da colisão
-        for collision in collisions:
-
-            # Estava indo para a direita
-            if self.speedx > 0:
-                self.rect.right = collision.rect.left
-            # Estava indo para a esquerda
-            elif self.speedx < 0:
-                self.rect.left = collision.rect.right
-=======
 		pygame.sprite.Sprite.__init__(self)
 
 		# Ajusta o tamanho da imagem
@@ -359,7 +283,6 @@ class Thanos(pygame.sprite.Sprite):
 			# Estava indo para a esquerda
 			elif self.speedx < 0:
 				self.rect.left = collision.rect.right
->>>>>>> 8d42f5c22554e79fa5499c08ea75385198cdcef1
 
 # Classe Gamora que representa a personagem Gamora
 class Gamora(pygame.sprite.Sprite):
@@ -546,18 +469,6 @@ class Fireball(pygame.sprite.Sprite):
 		
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
-<<<<<<< HEAD
-    assets = {}
-    assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'StarLord.png')).convert_alpha()
-    assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
-    assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
-    assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos2.png")).convert()
-    assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
-    assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
-    assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
-    assets["BACKGROUND"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
-=======
 	assets = {}
 	assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'StarLord.png')).convert_alpha()
 	assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
@@ -569,214 +480,27 @@ def load_assets(img_dir):
 	assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
 	assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
 	assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
->>>>>>> 8d42f5c22554e79fa5499c08ea75385198cdcef1
+    #assets["Menu"] = pygame.image.load(path.join(img_dir, "Menu")).convert()
 
 	return assets
-
-
-def game_screen(screen):
-<<<<<<< HEAD
-    # Variável para o ajuste de velocidade
-    clock = pygame.time.Clock()
-
+'''
+def menu (screen):
     # Carrega assets
-    assets = load_assets(img_dir)
+	assets = load_assets(img_dir)
 
-    # Carrega o fundo do jogo
-    background = assets["BACKGROUND"]
-    background_rect = background.get_rect()
-
-    #Carrega o som de fundo do jogo
-    #pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
-    #pygame.mixer.music.set_volume(0.4)
-
+	# Carrega o fundo do jogo
+	background = assets["Menu"]
+	background_rect = background.get_rect()
     
-    # Cria um grupo de todos os sprites.
-    all_sprites = pygame.sprite.Group()
-
-    # Cria um grupo somente com os sprites de bloco.
-    blocks = pygame.sprite.Group()
-    # Cria um grupo somente com os sprites de escadas.
-    stairs = pygame.sprite.Group()
-    # Grupo de meteoros
-    meteors = pygame.sprite.Group()
-    # Grupo Fireballs
-    fireballs = pygame.sprite.Group()
-
-
-    # Cria Sprite do jogador
-    player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs)
-    # Cria Sprite do Thanos
-    thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
-    # Cria Sprite da Gamora
-    gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
+    # Processa os eventos (mouse, teclado, botão, etc).
+	for event in pygame.event.get():
+        # Verifica se apertou alguma tecla.
+		if event.type == pygame.KEYDOWN:
+            if event.key == pygame.SPACE:
+                break
+''' 
     
-
-    #Adiciona vários meteoros ao grupo de meteoros
-    for i in range(8):
-    	m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
-    	all_sprites.add(m)
-    	meteors.add(m)
-
-    #Adiciona várias fireballs ao grupo de fireballs
-    for i in range(8):
-    	f = Fireball(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery)
-    	all_sprites.add(f)
-    	fireballs.add(f)
-
-
-
-    # Cria tiles de acordo com o mapa
-    for row in range(len(MAP)):
-        for column in range(len(MAP[row])):
-            tile_type = MAP[row][column]
-            if tile_type == 1:
-                tile = Tile(assets["BLOCK"], row, column)
-                all_sprites.add(tile)
-                blocks.add(tile)
-            if tile_type == 2:
-                tile = Tile(assets["ESCADA"], row, column)
-                all_sprites.add(tile)
-                stairs.add(tile)
-            if tile_type == 3:
-                tile = Tile(assets["BLOCK2"], row, column)
-                all_sprites.add(tile)
-                blocks.add(tile)
-
-
-    
-    # Adiciona o player, gamora e thanos por último
-    all_sprites.add(player,thanos, gamora)#, meteoro,tiro)
-
-
-    PLAYING = 0
-    DONE = 1
-
-    state = PLAYING
-    while state != DONE:
-
-        # Ajusta a velocidade do jogo.
-        clock.tick(FPS)
-
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                state = DONE
-
-            '''ali depende do tamanho do sprite do thanos'''
-
-            # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-
-                # Dependendo da tecla, altera o estado do jogador.
-                if event.key == pygame.K_LEFT:
-                    player.speedx -= SPEED_X
-                
-                elif event.key == pygame.K_RIGHT:
-                    player.speedx += SPEED_X
-                    tiro = Fireball(assets["FIREBALL_IMG"], thanos.rect.x + 48 , thanos.rect.y + 96) 
-                    all_sprites.add(tiro)
-     
-                elif event.key == pygame.K_UP:
-                    colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
-                    if colidiu_escada:
-                        player.rect.centerx= colidiu_escada[0].rect.centerx
-                        player.speedy = -5
-                        player.state = CLIMBING        
-                    else:
-                        player.speedy = -25
-                        
-                elif event.key == pygame.K_DOWN:
-                    colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
-                    if colidiu_escada:
-                        player.rect.centerx= colidiu_escada[1].rect.centerx
-                        player.speedy = 5
-                        player.state = CLIMBING
-
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
-
-                # Dependendo da tecla, altera o estado do jogador.
-                if event.key == pygame.K_LEFT:
-                    player.speedx += SPEED_X
-                elif event.key == pygame.K_RIGHT:
-                    player.speedx -= SPEED_X
-                elif event.key == pygame.K_UP:
-                    player.speedy = 0 
-            
-
-
-
-            '''
-            aqui embaixo ta dando bosta
-            
-                     
-          
-            if event.type == pygame.K_RIGHT:
-                tiroo = Tiro(thanos.rect.x, thanos.rect.y,assets["TIRO_IMG"])
-                all_sprites.add(tiroo)
-            
-            
-            '''
-            
-                #pew_sound.play()
-
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
-        all_sprites.update()
-
-        if state == PLAYING:
-            '''
-            # Verifica se houve colisão entre tiro e meteoro
-            hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-            for hit in hits: # Pode haver mais de um
-                # O meteoro e destruido e precisa ser recriado
-                destroy_sound.play()
-                m = Mob(assets["mob_img"]) 
-                all_sprites.add(m)
-                mobs.add(m)
-
-                # No lugar do meteoro antigo, adicionar uma explosão.
-                explosao = Explosion(hit.rect.center, assets["explosion_anim"])
-                all_sprites.add(explosao)
-
-                # Ganhou pontos!
-                score += 100
-            '''
-            '''
-            # Verifica se houve colisão entre nave e meteoro
-            hits_G = pygame.sprite.spritecollide(player, gamora, True, True)
-            if hits_G:
-                time.sleep(1)
-                state = DONE
-
-            hits_T = pygame.sprite.spritecollide(player, thanos, True)
-            if hits_T:
-                time.sleep(1)
-                state = DONE
-
-            hits_M = pygame.sprite.spritecollide(player, meteors, True, True)
-            if hits_M:
-                time.sleep(1)
-                state = DONE
-
-            hits_F = pygame.sprite.spritecollide(player, fireballs, True, True)
-            if hits_F:
-                time.sleep(1)
-                state = DONE
-
-            '''
-
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
-        all_sprites.draw(screen)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-=======
+def game_screen(screen):
 	# Variável para o ajuste de velocidade
 	clock = pygame.time.Clock()
 
@@ -798,6 +522,9 @@ def game_screen(screen):
 	meteors = pygame.sprite.Group()
 	# Grupo Fireballs
 	fireballs = pygame.sprite.Group()
+    
+
+
 
 
 	# Cria Sprite do jogador
@@ -978,12 +705,11 @@ def game_screen(screen):
 
 		# Depois de desenhar tudo, inverte o display.
 		pygame.display.flip()
->>>>>>> 8d42f5c22554e79fa5499c08ea75385198cdcef1
-
 
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
+
 
 #Carrega a musica do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
