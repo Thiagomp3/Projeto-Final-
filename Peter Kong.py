@@ -439,7 +439,7 @@ class Fireball(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 		
-		fireball_img = pygame.transform.scale(fireball_img, (48, 60))
+		fireball_img = pygame.transform.scale(fireball_img, (32, 64))
 
 		# Carregando a imagem de fundo.
 		self.image = fireball_img
@@ -473,13 +473,13 @@ def load_assets(img_dir):
 	assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
 	assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
 	assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-	assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos2.png")).convert()
+	assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
 	assets["THANOS_IMG"].set_colorkey(BLACK) 
 	assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
 	assets["GAMORA_IMG"].set_colorkey(BLACK)
 	assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
 	assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
-	assets["background"] = pygame.image.load(path.join(img_dir, "videoblocks-retro-8-bit-arcade-game-space-in-loop_hqzbawwz1q_thumbnail-full01.png")).convert()
+	assets["background"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
 
 	return assets
 
@@ -544,6 +544,10 @@ def game_screen(screen):
 	PLAYING = 0
 	DONE = 1
 
+	#Tempo no jogo
+	t0 = pygame.time.get_ticks()
+	t3 = pygame.time.get_ticks()
+
 	state = PLAYING
 	while state != DONE:
 
@@ -604,17 +608,20 @@ def game_screen(screen):
 
 		
 		#Adiciona meteoros ao grupo dos inimigos
-		#m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
-		#all_sprites.add(m)
-		#inimigos.add(m)
+		t1 = pygame.time.get_ticks()
+		if t1 - t0 > 5000:
+			m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
+			all_sprites.add(m)
+			inimigos.add(m)
+			t0 = pygame.time.get_ticks()
 
 		#Adiciona fireballs ao grupo de inimigos
-		#f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
-		#all_sprites.add(f)
-		#inimigos.add(f)
- 	
-
-
+		t2 = pygame.time.get_ticks()
+		if t2 - t3 > 10000:
+			f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
+			all_sprites.add(f)
+			inimigos.add(f)
+			t3 = pygame.time.get_ticks()
 		# Depois de processar os eventos.
 		# Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
 		all_sprites.update()
