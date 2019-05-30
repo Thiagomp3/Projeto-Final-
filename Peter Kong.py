@@ -469,12 +469,12 @@ class Fireball(pygame.sprite.Sprite):
 # Carrega todos os assets de uma vez.
 def load_assets(img_dir):
     assets = {}
-    assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'AvatarPeterQuill.png')).convert_alpha()
+    assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'StarLord.png')).convert_alpha()
     assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
     assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
     assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
-    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos_0.png")).convert()
-    assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora.png")).convert()
+    assets["THANOS_IMG"] = pygame.image.load(path.join(img_dir, "Thanos2.png")).convert()
+    assets["GAMORA_IMG"] = pygame.image.load(path.join(img_dir, "Gamora2.png")).convert()
     assets["METEOR_IMG"] = pygame.image.load(path.join(img_dir, "Meteor.png")).convert()
     assets["FIREBALL_IMG"] = pygame.image.load(path.join(img_dir, "Fireball.png")).convert()
     assets["BACKGROUND"] = pygame.image.load(path.join(img_dir, "background.png")).convert()
@@ -486,16 +486,18 @@ def game_screen(screen):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
+    # Carrega assets
+    assets = load_assets(img_dir)
+
     # Carrega o fundo do jogo
     background = assets["BACKGROUND"]
     background_rect = background.get_rect()
 
     #Carrega o som de fundo do jogo
-    pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+    pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
     pygame.mixer.music.set_volume(0.4)
 
-    # Carrega assets
-    assets = load_assets(img_dir)
+    
     # Cria um grupo de todos os sprites.
     all_sprites = pygame.sprite.Group()
 
@@ -581,7 +583,7 @@ def game_screen(screen):
                 
                 elif event.key == pygame.K_RIGHT:
                     player.speedx += SPEED_X
-                    tiro = Fireball(thanos.rect.x + 48 , thanos.rect.y + 96 ,assets["FIREBALL_IMG"]) 
+                    tiro = Fireball(assets["FIREBALL_IMG"], thanos.rect.x + 48 , thanos.rect.y + 96) 
                     all_sprites.add(tiro)
      
                 elif event.key == pygame.K_UP:
@@ -608,9 +610,8 @@ def game_screen(screen):
                     player.speedx += SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player.speedx -= SPEED_X
-                elif colidiu_escada:
-                    if event.key == pygame.K_UP:
-                        player.speedy = 0 
+                elif event.key == pygame.K_UP:
+                    player.speedy = 0 
             
 
 
@@ -651,6 +652,7 @@ def game_screen(screen):
                 # Ganhou pontos!
                 score += 100
             '''
+            '''
             # Verifica se houve colisão entre nave e meteoro
             hits_G = pygame.sprite.spritecollide(player, gamora, True, True)
             if hits_G:
@@ -671,6 +673,8 @@ def game_screen(screen):
             if hits_F:
                 time.sleep(1)
                 state = DONE
+
+            '''
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
