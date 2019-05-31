@@ -15,9 +15,9 @@ fnt_dir = path.join(path.dirname(__file__), 'Fonte')
 TITULO = 'Peter Kong'
 WIDTH = 800 # Largura da tela
 HEIGHT = 600 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
-TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
-PLAYER_WIDTH = 32  #32 #24    
-PLAYER_HEIGHT = 32 #32 #24
+TILE_SIZE = 24 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
+PLAYER_WIDTH = 24  #32 #24    
+PLAYER_HEIGHT = 24 #32 #24
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -214,7 +214,7 @@ class Thanos(pygame.sprite.Sprite):
 
 		# Ajusta o tamanho da imagem
 
-		thanos_img = pygame.transform.scale(thanos_img, (96, 96))#96,96 - Luca #48,48 - Lucca
+		thanos_img = pygame.transform.scale(thanos_img, (48, 48))#96,96 - Luca #48,48 - Lucca
 
 		# Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
 		self.image = thanos_img
