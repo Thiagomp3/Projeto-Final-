@@ -107,7 +107,7 @@ class Player(pygame.sprite.Sprite):
 		self.state = STILL
 
 		# Ajusta o tamanho da imagem
-		player_img = pygame.transform.scale(player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+		player_img = pygame.transform.scale(player_img, (PLAYER_WIDTH+12, PLAYER_HEIGHT+12))
 
 		# Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
 		self.image = player_img
@@ -356,7 +356,7 @@ class Meteor(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 
-		meteor_img = pygame.transform.scale(meteor_img, (48, 60))
+		meteor_img = pygame.transform.scale(meteor_img, (64, 64))
 		
 		# Carregando a imagem de fundo.
 		self.image = meteor_img
@@ -574,11 +574,16 @@ def game_screen(screen):
 					player.speedx += SPEED_X
 	 
 				elif event.key == pygame.K_UP:
+					C = player.rect.center
+					player.rect.width /= 2
+					player.rect.center = C
 					colidiu_escada = pygame.sprite.spritecollide(player, stairs, False)
 					if colidiu_escada:
 						player.rect.centerx= colidiu_escada[0].rect.centerx
 						player.speedy = -5
-						player.state = CLIMBING        
+						player.rect.width *= 2
+						player.rect.center = C
+						      
 					else:
 						player.speedy = -25
 						
@@ -589,7 +594,7 @@ def game_screen(screen):
 					if colidiu_escada:
 						player.rect.centerx= colidiu_escada[0].rect.centerx
 						player.speedy = 5
-						player.state = CLIMBING
+						
 
 			# Verifica se soltou alguma tecla.
 			if event.type == pygame.KEYUP:
@@ -622,6 +627,7 @@ def game_screen(screen):
 			all_sprites.add(f)
 			inimigos.add(f)
 			t3 = pygame.time.get_ticks()
+			
 		# Depois de processar os eventos.
 		# Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
 		all_sprites.update()
@@ -632,6 +638,7 @@ def game_screen(screen):
 			# Verifica se houve colisão entre nave e meteoro
 			hits = pygame.sprite.spritecollide(player, inimigos, True)
 			if hits:
+				player.kill()
 				state = DONE
 			
 
