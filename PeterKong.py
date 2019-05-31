@@ -13,8 +13,8 @@ fnt_dir = path.join(path.dirname(__file__), 'Fonte')
 
 # Dados gerais do jogo.
 TITULO = 'Peter Kong'
-WIDTH = 1024 # Largura da tela
-HEIGHT = 800 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
+WIDTH = 800 # Largura da tela
+HEIGHT = 600 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
 TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
 PLAYER_WIDTH = 32  #32 #24    
 PLAYER_HEIGHT = 32 #32 #24
@@ -506,7 +506,7 @@ def menu (screen):
         text_rect.bottomleft = (150, HEIGHT/2)
         screen.blit(text_surface, text_rect)
         score_font= pygame.font.Font(path.join(fnt_dir, "i_fink_u_freeky.ttf"),28)
-        text_surface= score_font.render("Aperte espaço para começar", True, BLACK)
+        text_surface= score_font.render("Aperte espaço para começar", True, WHITE)
         text_rect = text_surface.get_rect()
         text_rect.bottomleft = (50 , HEIGHT -68)
         screen.blit(text_surface, text_rect)
@@ -524,11 +524,9 @@ def game_screen(screen):
 	# Variável para o ajuste de velocidade
     
 	clock = pygame.time.Clock()
-eh
-    #Carrega a musica do jogo
-   pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
-   pygame.mixer.music.set_volume(0.4)
-   pygame.mixer.music.play(loops=-1)
+	pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
+	pygame.mixer.music.set_volume(0.4)
+	pygame.mixer.music.play(loops=-1)
     
 
 	# Carrega assets
