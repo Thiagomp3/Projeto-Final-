@@ -1,5 +1,5 @@
 import pygame
-from PeterKong import menu,WIDTH,HEIGHT,JOGO,QUIT,game_screen,INIT
+from PeterKong import menu,WIDTH,HEIGHT,JOGO,QUIT,game_screen,INIT,endgame,ENDGAME
 
 
 # Inicialização do Pygame.
@@ -19,7 +19,8 @@ try:
             pygame.quit()
         if state == JOGO:
             state = game_screen(screen)
-            state = QUIT
+        if state == ENDGAME:
+            state = endgame(screen)
             
 finally:
     pygame.quit()
