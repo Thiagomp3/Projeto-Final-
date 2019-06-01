@@ -365,7 +365,7 @@ class Meteor(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 
-		meteor_img = pygame.transform.scale(meteor_img, (32, 32))
+		meteor_img = pygame.transform.scale(meteor_img, (64, 64))
 		
 		# Carregando a imagem de fundo.
 		self.image = meteor_img
@@ -496,9 +496,9 @@ def load_assets(img_dir):
 def menu(screen):
 	
 	#Carrega a musica do jogo
-	#pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
-	#pygame.mixer.music.set_volume(0.4)
-	#pygame.mixer.music.play(loops=-1)
+	pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
+	pygame.mixer.music.set_volume(0.4)
+	pygame.mixer.music.play(loops=-1)
 
 	assets = load_assets(img_dir)
 	background = pygame.transform.scale(assets["menu"], (WIDTH, HEIGHT))
@@ -531,9 +531,9 @@ def menu(screen):
 def endgame(screen):
 
 	#Carrega a musica do jogo
-	#pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
-	#pygame.mixer.music.set_volume(0.4)
-	#pygame.mixer.music.play(loops=-1)
+	pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
+	pygame.mixer.music.set_volume(0.4)
+	pygame.mixer.music.play(loops=-1)
 
 	assets = load_assets(img_dir)
 	background = pygame.transform.scale(assets["menu"], (WIDTH, HEIGHT))
