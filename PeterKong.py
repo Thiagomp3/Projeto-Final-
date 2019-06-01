@@ -13,11 +13,11 @@ fnt_dir = path.join(path.dirname(__file__), 'Fonte')
 
 # Dados gerais do jogo.
 TITULO = 'Peter Kong'
-WIDTH = 1024 #largura da tela
-HEIGHT = 800 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
-TILE_SIZE = 32 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
-PLAYER_WIDTH = 32  #32 #24    
-PLAYER_HEIGHT = 32 #32 #24
+WIDTH = 800 #largura da tela
+HEIGHT = 600 # Altura da tela é 800, coloquei 600 pra rodar no meu pc
+TILE_SIZE = 24 # Tamanho de cada tile (cada tile é um quadrado) 32 #24
+PLAYER_WIDTH = 24  #32 #24    
+PLAYER_HEIGHT = 24 #32 #24
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -219,7 +219,7 @@ class Thanos(pygame.sprite.Sprite):
 
 		# Ajusta o tamanho da imagem
 
-		thanos_img = pygame.transform.scale(thanos_img, (96, 96))#96,96 - Luca #48,48 - Lucca
+		thanos_img = pygame.transform.scale(thanos_img, (48, 48))#96,96 - Luca #48,48 - Lucca
 
 		# Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
 		self.image = thanos_img
@@ -365,7 +365,7 @@ class Meteor(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 
-		meteor_img = pygame.transform.scale(meteor_img, (64, 64))
+		meteor_img = pygame.transform.scale(meteor_img, (32, 32))
 		
 		# Carregando a imagem de fundo.
 		self.image = meteor_img
@@ -446,7 +446,7 @@ class Fireball(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 		
-		fireball_img = pygame.transform.scale(fireball_img, (32, 64))
+		fireball_img = pygame.transform.scale(fireball_img, (32, 32))
 
 		# Carregando a imagem de fundo.
 		self.image = fireball_img
@@ -531,7 +531,7 @@ def menu(screen):
 def endgame(screen):
 
 	#Carrega a musica do jogo
-	pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
+	pygame.mixer.music.load(path.join(snd_dir, 'GloboRural.mp3'))
 	pygame.mixer.music.set_volume(0.4)
 	pygame.mixer.music.play(loops=-1)
 
