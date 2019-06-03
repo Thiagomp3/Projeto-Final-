@@ -582,8 +582,7 @@ def game_screen(screen):
 						player.rect.centerx= colidiu_escada[0].rect.centerx
 						player.speedy = -5
 						player.rect.width *= 2
-						player.rect.center = C
-						      
+						player.rect.center = C     
 					else:
 						player.speedy = -25
 						

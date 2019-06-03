@@ -33,8 +33,7 @@ GRAVITY = 5
 # Define a velocidade inicial no pulo
 JUMP_SIZE = TILE_SIZE
 # Define a velocidade em x
-SPEED_X = 5
-
+SPEED_X = 5 
 
 # Define o mapa com os tipos de tiles
 MAP = [
@@ -753,7 +752,11 @@ def game_screen(screen):
 		# A cada loop, redesenha o fundo e os sprites
 		screen.fill(BLACK)
 		screen.blit(background, background_rect)
+		img = player.image
+		player.image = pygame.transform.scale(img, (PLAYER_WIDTH+6, PLAYER_HEIGHT+6))
+		player.rect = player.image.get_rect()
 		all_sprites.draw(screen)
+		player.image = img
 
 		# Desenha as vidas
 		score_font= pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
