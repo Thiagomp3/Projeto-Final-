@@ -753,10 +753,14 @@ def game_screen(screen):
 		screen.fill(BLACK)
 		screen.blit(background, background_rect)
 		img = player.image
-		player.image = pygame.transform.scale(img, (PLAYER_WIDTH+6, PLAYER_HEIGHT+6))
+		rect = player.rect
+		player.image = pygame.transform.scale(img, (PLAYER_WIDTH+12, PLAYER_HEIGHT+12))
 		player.rect = player.image.get_rect()
+		player.rect.centerx = rect.centerx
+		player.rect.bottom = rect.bottom
 		all_sprites.draw(screen)
 		player.image = img
+		player.rect = rect
 
 		# Desenha as vidas
 		score_font= pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
