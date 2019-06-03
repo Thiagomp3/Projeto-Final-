@@ -530,7 +530,7 @@ def menu(screen):
 def endgame(screen):
 
 	#Carrega a musica do jogo
-	pygame.mixer.music.load(path.join(snd_dir, 'CarelessWhisper.mp3'))
+	pygame.mixer.music.load(path.join(snd_dir, 'GloboRural.mp3'))
 	pygame.mixer.music.set_volume(0.4)
 	pygame.mixer.music.play(loops=-1)
 
@@ -768,33 +768,3 @@ def game_screen(screen):
 		# Depois de desenhar tudo, inverte o display.
 		pygame.display.flip()
 	return state
-	
-'''
-# Inicialização do Pygame.
-pygame.init()
-pygame.mixer.init()
-
-#Carrega a musica do jogo
-pygame.mixer.music.load(path.join(snd_dir, 'AvengersTheme8bit.mp3'))
-pygame.mixer.music.set_volume(0.4)
-pygame.mixer.music.play(loops=-1)
-
-
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Nome do jogo
-pygame.display.set_caption(TITULO)
-
-# Imprime instruções
-print('*' * len(TITULO))
-print(TITULO.upper())
-print('*' * len(TITULO))
-print('Utilize as setas do teclado para andar e pular.')
-
-# Comando para evitar travamentos.
-try:
-	menu(screen)
-finally:
-	pygame.quit()
-'''
