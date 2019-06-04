@@ -60,7 +60,7 @@ MAP = [
 	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
 	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
 	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
-	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	[0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],
 	
 ]
 
@@ -596,7 +596,7 @@ def game_screen(screen):
 
 
 	# Cria Sprite do jogador
-	player = Player(assets["PLAYER_IMG"], 24, 1, blocks, stairs, 0, 0)
+	player = Player(assets["PLAYER_IMG"], 24, 15, blocks, stairs, 0, 0)
 	# Cria Sprite do Thanos
 	thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
 	# Cria Sprite da Gamora
@@ -744,7 +744,7 @@ def game_screen(screen):
 				state = ENDGAME
 			else:
 				state = PLAYING
-				player = Player(assets["PLAYER_IMG"], 24, 1, blocks, stairs, player.speedx, player.speedy)
+				player = Player(assets["PLAYER_IMG"], 24, 15, blocks, stairs, player.speedx, player.speedy)
 				all_sprites.add(player)
 		
 
