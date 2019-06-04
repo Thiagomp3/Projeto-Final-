@@ -704,7 +704,7 @@ def game_screen(screen):
 		
 		#Adiciona meteoros ao grupo dos inimigos
 		t1 = pygame.time.get_ticks()
-		if t1 - t0 > 15000:
+		if t1 - t0 > 12500:
 			m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
 			all_sprites.add(m)
 			mobs.add(m)
