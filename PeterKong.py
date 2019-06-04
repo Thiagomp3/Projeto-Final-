@@ -363,7 +363,7 @@ class Meteor(pygame.sprite.Sprite):
 		# Construtor da classe pai (Sprite).
 		pygame.sprite.Sprite.__init__(self)
 
-		meteor_img = pygame.transform.scale(meteor_img, (36, 36))
+		meteor_img = pygame.transform.scale(meteor_img, (64, 64))
 		
 		# Carregando a imagem de fundo.
 		self.image = meteor_img
@@ -475,6 +475,7 @@ class Fireball(pygame.sprite.Sprite):
 def load_assets(img_dir):
 	assets = {}
 	assets["PLAYER_IMG"] = pygame.image.load(path.join(img_dir, 'StarLord.png')).convert_alpha()
+	assets["PLAYER_IMG"].set_colorkey(BLACK) 
 	assets["BLOCK"] = pygame.image.load(path.join(img_dir, 'platform.png')).convert()
 	assets["ESCADA"] = pygame.image.load(path.join(img_dir, 'escada.png')).convert()
 	assets["BLOCK2"] = pygame.image.load(path.join(img_dir, 'esteira.png')).convert()
@@ -704,7 +705,7 @@ def game_screen(screen):
 		
 		#Adiciona meteoros ao grupo dos inimigos
 		t1 = pygame.time.get_ticks()
-		if t1 - t0 > 2500:
+		if t1 - t0 > 10000:
 			m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
 			all_sprites.add(m)
 			mobs.add(m)
@@ -712,7 +713,7 @@ def game_screen(screen):
 
 		#Adiciona fireballs ao grupo de inimigos
 		t2 = pygame.time.get_ticks()
-		if t2 - t3 > 1000:
+		if t2 - t3 > 500:
 			f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
 			all_sprites.add(f)
 			mobs.add(f)
