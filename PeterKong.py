@@ -2,7 +2,6 @@
 
 # Importando as bibliotecas necessárias.
 import pygame
-import random
 import time
 from os import path
 
@@ -29,9 +28,9 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
 # Define a aceleração da gravidade
-GRAVITY = 5
+GRAVITY = 2
 # Define a velocidade inicial no pulo
-JUMP_SIZE = TILE_SIZE
+JUMP_SIZE = 20
 # Define a velocidade em x
 SPEED_X = 5 
 
@@ -46,21 +45,21 @@ MAP = [
 	[0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3],
-	[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
-	[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
-	[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
-	[3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,2,3,3],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0],
-	[0,1,1,1,1,1,1,0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0,1,1,1,1,1,1,1,1,0],
+	[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,3,2,3,0],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0],
+	[0,0,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,0,0],
 	[0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],
-	[3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
-	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0],
+	[3,3,3,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,2,3,3,3,3,3,3,3,3,2,3,3,3,3],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
+	[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0],
 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 	
 ]
@@ -596,11 +595,12 @@ def game_screen(screen):
 
 
 	# Cria Sprite do jogador
-	player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs, 0, 0)
+	player = Player(assets["PLAYER_IMG"], 24, 1, blocks, stairs, 0, 0)
 	# Cria Sprite do Thanos
 	thanos = Thanos(assets["THANOS_IMG"], 9, 6, blocks)
 	# Cria Sprite da Gamora
 	gamora = Gamora(assets["GAMORA_IMG"], 4, 13, blocks)
+
 
 
 	#Adiciona o thanos e a gamora no grupo de inimigos
@@ -658,8 +658,6 @@ def game_screen(screen):
 			if event.type == pygame.QUIT:
 				state = QUIT
 
-			'''ali depende do tamanho do sprite do thanos'''
-
 			# Verifica se apertou alguma tecla.
 			if event.type == pygame.KEYDOWN:
 
@@ -706,7 +704,7 @@ def game_screen(screen):
 		
 		#Adiciona meteoros ao grupo dos inimigos
 		t1 = pygame.time.get_ticks()
-		if t1 - t0 > 5000:
+		if t1 - t0 > 15000:
 			m = Meteor(assets["METEOR_IMG"], thanos.rect.centerx, thanos.rect.centery, blocks)
 			all_sprites.add(m)
 			mobs.add(m)
@@ -714,7 +712,7 @@ def game_screen(screen):
 
 		#Adiciona fireballs ao grupo de inimigos
 		t2 = pygame.time.get_ticks()
-		if t2 - t3 > 10000:
+		if t2 - t3 > 500:
 			f = Fireball(assets["FIREBALL_IMG"], thanos.rect.centerx, thanos.rect.centery)
 			all_sprites.add(f)
 			mobs.add(f)
@@ -745,20 +743,24 @@ def game_screen(screen):
 				state = ENDGAME
 			else:
 				state = PLAYING
-				player = Player(assets["PLAYER_IMG"], 24, 3, blocks, stairs, player.speedx, player.speedy)
+				player = Player(assets["PLAYER_IMG"], 24, 1, blocks, stairs, player.speedx, player.speedy)
 				all_sprites.add(player)
 		
 
 		# A cada loop, redesenha o fundo e os sprites
 		screen.fill(BLACK)
 		screen.blit(background, background_rect)
+
+		# Desenha a imagem maior do player mantendo o tamanho do retângulo
 		img = player.image
 		rect = player.rect
-		player.image = pygame.transform.scale(img, (PLAYER_WIDTH+12, PLAYER_HEIGHT+12))
+		player.image = pygame.transform.scale(img, (PLAYER_WIDTH+8, PLAYER_HEIGHT+8))
 		player.rect = player.image.get_rect()
 		player.rect.centerx = rect.centerx
-		player.rect.bottom = rect.bottom
+		player.rect.bottom = rect.bottom	
+		# Desenha todos sprites		
 		all_sprites.draw(screen)
+		# Redefine o retângulo e a imagem do player e do meteoro
 		player.image = img
 		player.rect = rect
 
